@@ -1,39 +1,49 @@
 <script setup>
-defineEmits(['remove','back'])
+
+defineEmits(['remove','back','edit'])
 
 defineProps({
     listDetailBooking : {
-        type : Array,
-        require : true,
-        default: []
+        type : Object,  
+        require : true
     }
 })
-/* list-all : date starttime duration catagoryname bookingName
-   detail : date starttime duration catagoryName bookingName email notes */
+
+const confirmAction = (bookingId,bookingName) => {
+    let confirmAction =  confirm(`Do you want to delete booking: ${bookingName}`)
+    if(confirmAction) {
+        return bookingId
+    }
+}
+
 </script>
 
-
 <template>
-   <div class="mt-8 text-center">
-        <p class="text-4xl font-semibold">Detail List Booking</p>
-        <div class="grid grid-cols-3">
-        <div class="rounded-lg bg-info text-black text-center m-10 p-5 drop-shadow-xl" v-for="booking in listDetailBooking" :key="listDetailBooking.id">
-             <p>startTime : {{ booking.startTime}}</p> 
-             <p>duration : {{booking.category.duration}} Minutes</p>
-             <p>categoryName : {{booking.category.categoryName}}</p>
-             <p>bookingName : {{ booking.bookingName}}</p>
-             <p>Email : {{ booking.email}}</p>
-             <p>Note : {{ booking.note}}</p>
-            <button @click="$emit('back')" class="my-2 flex-row btn btn-outline btn-error btn-xs drop-shadow-xl">Back</button>
-            <button @click="$emit('remove', { bookingId : booking.id, categoriesId : booking.category.id})" class="my-2 flex-row btn btn-outline btn-error btn-xs drop-shadow-xl">DELETE</button>
-
-            <br>
-        </div>
+<div>
+    <p class="text-4xl font-semibold text-center text-white mt-8">Detail List Booking</p>
+    <div class="grid grid-cols-1 w-7/12 ml-auto mr-auto drop-shadow ">
+       <div class="rounded-lg bg-gray-50 text-neutral m-10 p-8 drop-shadow-xl text-left">
+        <!-- <p><b>Booking ID :</b> {{listDetailBooking.id}}</p> -->
+        <p><span class="font-bold text-lg m-2 text-base-100">Booking name :  </span>{{listDetailBooking.bookingName}}</p>
+        <p><span class="font-bold text-lg m-2 text-base-100">Email :  </span>{{ listDetailBooking.email}}</p>
+        <p><span class="font-bold text-lg m-2 text-base-100">Event category name :  </span>{{listDetailBooking.categoryName}}</p>
+        <p><span class="font-bold text-lg m-2 text-base-100">Event start time :  </span>{{ new Date(listDetailBooking.startTime).toLocaleString('en-GB',{dateStyle: 'full', timeStyle: 'medium'})}}</p>        
+        <p><span class="font-bold text-lg m-2 text-base-100">Duration : </span>{{listDetailBooking.categoryDuration}} minutes</p>
+        <p><span class="font-bold text-lg m-2 text-base-100">Note : </span>{{ listDetailBooking.note}}</p>     
+        <router-link class="mt-5 btn btn-xs drop-shadow-xl mr-3" :to="{ name: 'List' }">BACK</router-link>
+        <!-- <button @click="$emit('edit', listDetailBooking.id)" class="mt-5 flex-row btn btn-base-100 btn-xs drop-shadow-xl mr-3">EDIT</button> -->
+        <router-link :to="{name: 'Edit' , 
+               params:{ 
+                BookingIdEdit: listDetailBooking.id} 
+                }">
+                Edit
+            </router-link>
+        <button @click="$emit('remove', confirmAction(listDetailBooking.id,listDetailBooking.bookingName))" class="mt-5 flex-row btn btn-outline btn-error btn-xs drop-shadow-xl">DELETE</button>
+        
+       </div>
     </div>
-    </div>
-
+</div>
 
 </template>
 
-<style>
-</style>
+<style></style>

@@ -1,67 +1,53 @@
 <script setup>
 import {useRoute} from 'vue-router'
-//import { ref, onBeforeMount } from 'vue'
+import { ref } from 'vue'
 import ListDetailBooking from '../components/ListDetailBooking.vue'
-//const bookdetails = ref([])
-const goBack = () => appRoute()
+import router from "../router";
+//const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
+const url = 'http://202.44.9.103:8080/ssi5/api'
+
+const bookdetails = ref({})
 
 let {params} = useRoute() 
-// console.log(params.BookingId)  
+console.log(params.BookingId)  
+
+const id = ref(params.BookingId) 
 
 //GET
-// const getListBookingById = async () => {
-//   const res = await fetch(`http://10.4.56.116:8080/api/booking/${id}`)
-//   if (res.status === 200) {
-//     bookdetails.value = await res.json()
-//     console.log(bookdetails.value)
-//   } else console.log('error, cannot get listNotesById')
-// }
+const getListBookingById = async () => {
+  const res = await fetch(`${url}/booking/${id.value}`);
+  if (res.status === 200) {
+    bookdetails.value = await res.json()
+    console.log(bookdetails.value)
+  } else console.log('error, cannot get listNotesById')
+}
 
-// onBeforeMount(() => {
-//   getListBookingById();
-// })
+  getListBookingById();
+
+//DELETE
+const removeEvent = async (deleteId) => {
+  const res = await fetch(`${url}/booking/${deleteId}` , {
+    method: 'DELETE'
+  })
+  if(res.status === 200){   
+    router.push({name: 'List'})
+    console.log("deleted success")
+  }else {
+    console.log("error, cannot delete data")
+  }
+}
 
 </script>
  
 <template>
   <ListDetailBooking 
   :listDetailBooking="bookdetails"
-  @Back="goBack"/>
+  @remove="removeEvent"
+  @edit=""
+  />
 
-  <div class="mt-8 text-center">
-  <p class="text-4xl font-semibold">Detail List Booking</p>
-  <div class="grid grid-cols-3">
-  <div class="rounded-lg bg-info text-black text-left m-10 p-5 drop-shadow-xl">
-  <p>BookingId : {{this.$route.params.BookingId}}</p>
-  <p>startTime :{{this.$route.params.startTime}}</p> 
-  <p>duration :{{this.$route.params.duration}}</p> 
-  <p>categoryName :{{this.$route.params.catagoryName}}</p> 
-  <p>Booking Name :{{this.$route.params.BookingName}}</p> 
-  <p>Email :{{this.$route.params.email}}</p> 
-  <p>Note :{{this.$route.params.note}}</p> 
-   <button @click="$emit('remove', { bookingId : booking.id, categoriesId : categories.id})" 
-   class="my-2 flex-row btn btn-outline btn-error btn-xs drop-shadow-xl">DELETE</button> 
 
-   </div>
-    </div>
-    </div>
-<!-- 
-  <div class="mt-8 text-center">
-        <p class="text-4xl font-semibold">Detail List Booking</p>
-        <div class="grid grid-cols-3">
-        <div class="rounded-lg bg-info text-black text-center m-10 p-5 drop-shadow-xl" v-for="booking in listDetailBooking" :key="listDetailBooking.id">
-            <p>startTime : {{ booking.startTime}}</p> 
-            <p>duration : {{booking.category.duration}} Minutes</p>
-             <p>categoryName : {{booking.category.categoryName}}</p>
-             <p>bookingName : {{ booking.bookingName}}</p>
-             <p>Email : {{ booking.email}}</p>
-             <p>Note : {{ booking.note}}</p>
-            <button @click="$emit('remove', { bookingId : booking.id, categoriesId : categories.id})" class="my-2 flex-row btn btn-outline btn-error btn-xs drop-shadow-xl">DELETE</button>
-            <br>
-        </div>
-    </div>
-    </div> -->
-    
+
 </template>
  
 <style scoped></style>
