@@ -14,12 +14,12 @@ console.log(editBooking.value)
 </script>
  
 <template>
-<div>
+<div class="pt-10 ml-auto mr-auto right-0 left-0 top-4 z-50 flex justify-center items-center md:inset-0 drop-shadow-xl">
     <form class="bg-white rounded-lg px-10 pt-10 pb-8">
-        <h3 class="text-4xl font-semibold text-base-100 mb-2">Add Event</h3>
-                    <p class="text-sm text-neutral pl-3 mb-7">You can book the clinic that you want. </p>
+        <h3 class="text-4xl font-semibold text-base-100 mb-2">Edit Event</h3>
+            <p class="text-sm text-neutral pl-3 mb-7">You can edit booking clinic that you want. </p>
             <div class=" flex">
-                              <div class="flex-1 text-neutral pt-3 pl-5">
+                    <div class="flex-1 text-neutral pt-3 pl-5">
                         <label class="block text-base-100 text-sm font-bold mb-3" for="password">Event start time</label>
                         <input type="datetime-local"
                             name="startTime" id="startTime" 
@@ -34,7 +34,6 @@ console.log(editBooking.value)
             </div>
                     <br>
                     <button @click="$emit('edit',editBooking )" class="pt-3 pl-5 w-full rounded-lg text-sm px-10 py-2.5 text-center mt-5 btn btn-warning drop-shadow-xl" >confirm edit</button>
-
 
     </form>
 </div>

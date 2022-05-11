@@ -32,7 +32,8 @@ const confirmAction = (bookingId,bookingName) => {
         <p><span class="font-bold text-lg m-2 text-base-100">Note : </span>{{ listDetailBooking.note}}</p>     
         <router-link class="mt-5 btn btn-xs drop-shadow-xl mr-3" :to="{ name: 'List' }">BACK</router-link>
         <!-- <button @click="$emit('edit', listDetailBooking.id)" class="mt-5 flex-row btn btn-base-100 btn-xs drop-shadow-xl mr-3">EDIT</button> -->
-        <router-link :to="{name: 'Edit' , 
+        <router-link class="mt-5 flex-row btn btn-base-100 btn-xs drop-shadow-xl mr-3"
+            :to="{name: 'Edit' , 
                params:{ 
                 BookingIdEdit: listDetailBooking.id} 
                 }">
