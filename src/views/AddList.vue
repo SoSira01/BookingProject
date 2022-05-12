@@ -4,6 +4,7 @@ import NewBooking from '../components/NewBooking.vue'
 import router from '../router'
 const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
 //const url = '  http://202.44.9.103:8080/ssi5/api'
+
 const Categorydetails = ref([])
 
 // POST 
@@ -18,7 +19,7 @@ const addBooking = async (newBookingEvent) => {
                 startTime: new Date(newBookingEvent.startTime).toISOString(),
                 email: newBookingEvent.email,
                 note: newBookingEvent.note,
-                categoryId:newBookingEvent.categoryid
+                categoryId:newBookingEvent.category.id
             })
         })
     console.log(await res.json())
@@ -30,15 +31,15 @@ const addBooking = async (newBookingEvent) => {
     
 }
 
-// const getListCategoryById = async () => {
-//   const res = await fetch(`${url}/Category/${id.value}`);
-//   if (res.status === 200) {
-//     Categorydetails.value = await res.json()
-//     console.log(Categorydetails.value)
-//   } else console.log('error, cannot get Categorydetails')
-// }
+const getListCategory = async () => {
+  const res = await fetch(`${url}/category`);
+  if (res.status === 200) {
+    Categorydetails.value = await res.json()
+    console.log(Categorydetails.value)
+  } else console.log('error, cannot get Categorydetails')
+}
 
-//   getListCategoryById();
+  getListCategory();
 
 </script>
  

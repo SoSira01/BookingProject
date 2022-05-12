@@ -1,25 +1,27 @@
 <script setup>
-import { ref } from 'vue'
+
+import { ref,computed} from 'vue'
 
 defineEmits(['AddList'])
 
-defineProps({
+const props = defineProps({
     categoryDetails : {
-        type : Object,
-        require : true,
-        default: {}
+        type : Array,
+        default: []
     }
 })
 
 const newBooking = ref({})
 
-console.log(newBooking.value)
-
+// const forDuration = computed(() => {
+//     return newBooking.value
+// })
+console.log(props.categoryDetails)
+// console.log(categoryDetails.category.categoryDuration)
 </script>
 
 <template>
     <div>
-        <!--eventCategory(dropdown), bookingName(tex), bookingEmail(text), eventStartTime(?), eventNotes(text)-->
         <div>
             <div class="pt-10 ml-auto mr-auto right-0 left-0 top-4 z-50 flex justify-center items-center md:inset-0 drop-shadow-xl">
                 <img src="/images/add.png" alt="online schedule" class="max-w-2xl">
@@ -36,19 +38,25 @@ console.log(newBooking.value)
                      <div class=" flex">
                     <div class="flex-1 text-neutral pt-3 pl-5">
                         <label class="block text-base-100 text-sm font-bold mb-3" for="category">Event category name</label>
-                        <select name="category" id="category" v-model="newBooking.categoryid"
+                        <select name="category" id="category" v-model="newBooking.category"
                             class=" select bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5 ">
-                            <option disabled selected>Select Clinics</option>
+                            <!-- <option disabled selected>Select Clinics</option>
                             <option value=1>Project Management Clinic</option>
                             <option value=2>DevOps/Infra Clinic</option>
                             <option value=3>Database Clinic</option>
                             <option value=4>Client-side Clinic</option>
-                            <option value=5>Server-side Clinic</option> 
+                            <option value=5>Server-side Clinic</option>  -->
+                            <option :value="categoryDetail" v-for="(categoryDetail, index) in categoryDetails" :key="index">
+                                {{categoryDetail.categoryName}}
+                            </option>
                         </select>
-                    </div>
+                    </div> 
+                                   
                     <div>
-                        <p>{{categoryDetails.categoryDuration}}</p>
+                        <p v-if="!newBooking.category">Duration</p>
+                        <p v-else >time : {{newBooking.category.duration}} minutes</p>
                     </div>
+
                     <div class="flex-1 text-neutral pt-3 pl-5">
                         <label class="block text-base-100 text-sm font-bold mb-3" for="password">Event start time</label>
                         <input type="datetime-local"
