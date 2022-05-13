@@ -45,6 +45,8 @@ const editBooking = computed(() => {return {startTime:new Date( props.editBook.s
             
                     <br>
                     <button @click="$emit('edit',confirmAction(editBooking,editBooking.startTime,editBooking.note), $event)" class="pt-3 pl-5 w-full rounded-lg text-sm px-10 py-2.5 text-center mt-5 btn btn-warning drop-shadow-xl">confirm edit</button>
+
+                    
         </div>
     </form>
 </div>

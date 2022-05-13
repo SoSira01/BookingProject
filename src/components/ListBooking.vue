@@ -16,21 +16,22 @@ const confirmAction = (bookingId,bookingName) => {
     }
 }
 
+const filterPro = ()=> {}
 </script>
 
 <template>
-<div class="mt-8 text-center">
-        <p class="text-4xl font-semibold text-white">List Booking</p>
+<div class="mt-8">
+        <p class="text-4xl font-semibold text-white text-center">List Booking</p>
         <br>
 
         <div class="dropdown">
-            <label tabindex="0" class="btn m-1">Select Category</label>
+            <label tabindex="0" class="btn m-1 ml-10">Select Category</label>
             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                <li><a>Project Management Clinic</a></li>
-                <li><a>DevOps/Infra Clinic</a></li>
-                <li><a>Database Clinic</a></li>
-                <li><a>Client-side Clinic</a></li>
-                <li><a>Server-side Clinic</a></li>
+                <li><a @click="filterPro">Project Management Clinic</a></li>
+                <li><a @click="filterDev">DevOps/Infra Clinic</a></li>
+                <li><a @click="filterData">Database Clinic</a></li>
+                <li><a @click="filterClient">Client-side Clinic</a></li>
+                <li><a @click="filterServ">Server-side Clinic</a></li>
             </ul>
         </div>
 

@@ -72,7 +72,7 @@ console.log(props.categoryDetails)
                         <input type="text" name="note" id="note" v-model="newBooking.note"
                             class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">
                     </div>
-
+                    
                     <button
                         class="pt-3 pl-5 w-full rounded-lg text-sm px-10 py-2.5 text-center mt-5 btn btn-warning drop-shadow-xl"
                         type="button" data-modal-toggle="add-form" @click="$emit('AddList', newBooking)">
