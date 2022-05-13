@@ -22,12 +22,23 @@ const confirmAction = (bookingId,bookingName) => {
 <div class="mt-8 text-center">
         <p class="text-4xl font-semibold text-white">List Booking</p>
         <br>
+
+        <div class="dropdown">
+            <label tabindex="0" class="btn m-1">Select Category</label>
+            <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                <li><a>Project Management Clinic</a></li>
+                <li><a>DevOps/Infra Clinic</a></li>
+                <li><a>Database Clinic</a></li>
+                <li><a>Client-side Clinic</a></li>
+                <li><a>Server-side Clinic</a></li>
+            </ul>
+        </div>
+
         <!-- <p>{{noSchedule()}}</p> -->
         <p v-show="listBooking == ''">No schedule event</p>
         <!-- <p v-if="listBooking == '' ">No schedule event</p> -->
     <div class="grid grid-cols-1 w-7/12 ml-auto mr-auto">
         <div class="rounded-lg bg-gray-50 text-neutral m-10 p-8 drop-shadow-xl text-left" v-for="booking in listBooking" :key="listBooking.id">
-    
             <p><span class="font-bold text-lg m-2 text-base-100">Booking name :  </span>{{ booking.bookingName}}</p>
             <p><span class="font-bold text-lg m-2 text-base-100">Event category name :  </span>{{booking.categoryName}}</p> 
             <p><span class="font-bold text-lg m-2 text-base-100">Event start time :  </span>{{ new Date(booking.startTime).toLocaleString('en-GB',{dateStyle: 'full', timeStyle: 'medium'})}}</p>            

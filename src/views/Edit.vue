@@ -8,10 +8,10 @@ const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
 //const url = '  http://202.44.9.103:8080/ssi5/api'
 // //EDIT
 const editdetails = ref({});           
-// // const toEditMode = (editNote) => {    
-// //  console.log(editNote)
-// //  editingNote.value = editNote
-// // }
+// const toEditMode = (editNote) => {    
+//  console.log(editNote)
+//  editingNote.value = editNote
+// }
 
 let {params} = useRoute() 
 console.log(params.BookingIdEdit)  
@@ -49,6 +49,7 @@ const getListBookingById = async () => {
 }
 
   getListBookingById();
+
 </script>
  
 <template>

@@ -28,6 +28,7 @@ console.log(props.categoryDetails)
                 <form class="bg-white rounded-lg px-10 pt-10 pb-8 ">
                     <h3 class="text-4xl font-semibold text-base-100 mb-2">Add Event</h3>
                     <p class="text-sm text-neutral pl-3 mb-7">You can book the clinic that you want. </p>
+                    
                     <div class=" flex">
                         <div class="flex-1 text-neutral pt-3 pl-5">
                             <label class="block text-base-100 text-sm font-bold mb-3" for="password">Bookingname</label>
@@ -35,26 +36,20 @@ console.log(props.categoryDetails)
                                 class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">
                         </div>
                     </div>
-                     <div class=" flex">
+                    <div class=" flex">
                     <div class="flex-1 text-neutral pt-3 pl-5">
                         <label class="block text-base-100 text-sm font-bold mb-3" for="category">Event category name</label>
                         <select name="category" id="category" v-model="newBooking.category"
                             class=" select bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5 ">
-                            <!-- <option disabled selected>Select Clinics</option>
-                            <option value=1>Project Management Clinic</option>
-                            <option value=2>DevOps/Infra Clinic</option>
-                            <option value=3>Database Clinic</option>
-                            <option value=4>Client-side Clinic</option>
-                            <option value=5>Server-side Clinic</option>  -->
                             <option :value="categoryDetail" v-for="(categoryDetail, index) in categoryDetails" :key="index">
                                 {{categoryDetail.categoryName}}
                             </option>
                         </select>
                     </div> 
                                    
-                    <div>
-                        <p v-if="!newBooking.category">Duration</p>
-                        <p v-else >time : {{newBooking.category.duration}} minutes</p>
+                    <div class="flex-1 block text-base-100 text-sm font-bold mb-3">
+                        <p v-if="!newBooking.category" class="text-error ml-3 mt-14">* Select a category</p>
+                        <p v-else class="ml-3 mt-14 " >Duration : {{newBooking.category.duration}} minutes</p>
                     </div>
 
                     <div class="flex-1 text-neutral pt-3 pl-5">
