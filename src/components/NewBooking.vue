@@ -18,11 +18,12 @@ const newBooking = ref({})
 // })
 console.log(props.categoryDetails)
 // console.log(categoryDetails.category.categoryDuration)
+
 </script>
 
 <template>
     <div>
-        <div>
+        <div class="mt-20">
             <div class="pt-10 ml-auto mr-auto right-0 left-0 top-4 z-50 flex justify-center items-center md:inset-0 drop-shadow-xl">
                 <img src="/images/add.png" alt="online schedule" class="max-w-2xl">
                 <form class="bg-white rounded-lg px-10 pt-10 pb-8 ">

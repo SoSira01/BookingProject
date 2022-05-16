@@ -4,6 +4,7 @@ import ListBooking from '../components/ListBooking.vue'
 //const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
 const url = '  http://202.44.9.103:8080/ssi5/api'
 const book = ref([])
+
 //GET
 const getListBooking = async () => {
   const res = await fetch(`${url}/booking`)
@@ -28,6 +29,8 @@ const removeEvent = async (deleteId) => {
     console.log("error, cannot delete data")
   }
 }
+
+
 </script>
  
 <template>
