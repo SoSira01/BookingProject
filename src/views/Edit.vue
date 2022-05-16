@@ -36,7 +36,11 @@ const editBooking = async (newedit, e) => {
 if (res.status === 200) {
     alert('edited success')
     router.push({ name: 'ListDetail' })
-  } else console.log("error, cannot be edited");
+  } else {
+   alert('Error To Edit Please try again')
+  console.log("error, cannot be edited")    
+  }
+
 }
 
 //GETById

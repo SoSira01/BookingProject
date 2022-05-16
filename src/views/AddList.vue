@@ -27,7 +27,11 @@ const addBooking = async (newBookingEvent) => {
     if (res.status === 200) {
         alert('add new booking complete')
         router.push({ name: 'List' })
-    } else console.log("cannot add new booking")
+    } else {
+        alert('Error To Add, Please try again')
+        console.log("cannot add new booking")
+    }
+
     
 }
 

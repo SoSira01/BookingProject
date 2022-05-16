@@ -19,7 +19,7 @@ const confirmAction = (bookingId,bookingName) => {
 </script>
 
 <template>
-<div>
+<div class="mt-20">
     <p class="text-4xl font-semibold text-center text-white mt-8">Detail List Booking</p>
     <div class="grid grid-cols-1 w-7/12 ml-auto mr-auto drop-shadow ">
        <div class="rounded-lg bg-gray-50 text-neutral m-10 p-8 drop-shadow-xl text-left">
@@ -27,7 +27,7 @@ const confirmAction = (bookingId,bookingName) => {
         <p><span class="font-bold text-lg m-2 text-base-100">Booking name :  </span>{{listDetailBooking.bookingName}}</p>
         <p><span class="font-bold text-lg m-2 text-base-100">Email :  </span>{{ listDetailBooking.email}}</p>
         <p><span class="font-bold text-lg m-2 text-base-100">Event category name :  </span>{{listDetailBooking.categoryName}}</p>
-        <p><span class="font-bold text-lg m-2 text-base-100">Event start time :  </span>{{ new Date(listDetailBooking.startTime).toLocaleString('en-GB',{dateStyle: 'full', timeStyle: 'medium'})}}</p>        
+        <p><span class="font-bold text-lg m-2 text-base-100">Event start time :  </span>{{ new Date(listDetailBooking.startTime).toLocaleString('en-US',{dateStyle: 'full', timeStyle: 'medium'})}}</p>        
         <p><span class="font-bold text-lg m-2 text-base-100">Duration : </span>{{listDetailBooking.categoryDuration}} minutes</p>
         <p><span class="font-bold text-lg m-2 text-base-100">Note : </span>{{ listDetailBooking.note}}</p>     
         <router-link class="mt-5 btn btn-xs drop-shadow-xl mr-3" :to="{ name: 'List' }">BACK</router-link>

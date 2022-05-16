@@ -1,7 +1,10 @@
 <script setup>
+import {ref ,computed} from 'vue'
+
 defineEmits(['remove','details'])
 
-defineProps({
+const prop = defineProps({
+
     listBooking : {
         type : Array,
         require : true,
@@ -16,33 +19,40 @@ const confirmAction = (bookingId,bookingName) => {
     }
 }
 
-const filterPro = ()=> {}
+// const bk = ref([])
+// console.log(prop.listBooking)
+
+// const keyWord = ref('')
+// const listBookingFilter = computed(() => bk.value.filter( (booklist) => booklist.includes(keyWord.value)))
+// console.log(listBookingFilter)
+
 </script>
 
 <template>
-<div class="mt-8">
+<div class="mt-20">
         <p class="text-4xl font-semibold text-white text-center">List Booking</p>
         <br>
+        <div class="flex-1 text-neutral pt-3 pl-5 w-64 float-left ml-10">
+            <label class="block text-white text-sm font-bold mb-3 w-64 float-left" for="category">Find by category</label>
+                <select name="category" id="category"  
+                    class=" select bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5 ">
+                    <option value="1">Project Management Clinic</option>
+                    <option value="2">DevOps/Infra Clinic</option>
+                    <option value="3">Database Clinic</option>
+                    <option value="4">Client-side Clinic</option>
+                    <option value="5">server-side Clinic</option>
 
-        <div class="dropdown">
-            <label tabindex="0" class="btn m-1 ml-10">Select Category</label>
-            <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                <li><a @click="filterPro">Project Management Clinic</a></li>
-                <li><a @click="filterDev">DevOps/Infra Clinic</a></li>
-                <li><a @click="filterData">Database Clinic</a></li>
-                <li><a @click="filterClient">Client-side Clinic</a></li>
-                <li><a @click="filterServ">Server-side Clinic</a></li>
-            </ul>
-        </div>
-
-        <!-- <p>{{noSchedule()}}</p> -->
-        <p v-show="listBooking == ''">No schedule event</p>
-        <!-- <p v-if="listBooking == '' ">No schedule event</p> -->
+                </select>
+        </div> 
+        
     <div class="grid grid-cols-1 w-7/12 ml-auto mr-auto">
-        <div class="rounded-lg bg-gray-50 text-neutral m-10 p-8 drop-shadow-xl text-left" v-for="booking in listBooking" :key="listBooking.id">
+        <div v-if="listBooking == ''" class="text-center mt-4 ">
+        <span class="text-sm">No Scheduled Events</span>
+        </div>
+        <div v-else class=" rounded-lg bg-gray-50 text-neutral m-5 p-8 drop-shadow-xl text-left" v-for="(booking,index) in listBooking" :key="index">
             <p><span class="font-bold text-lg m-2 text-base-100">Booking name :  </span>{{ booking.bookingName}}</p>
             <p><span class="font-bold text-lg m-2 text-base-100">Event category name :  </span>{{booking.categoryName}}</p> 
-            <p><span class="font-bold text-lg m-2 text-base-100">Event start time :  </span>{{ new Date(booking.startTime).toLocaleString('en-GB',{dateStyle: 'full', timeStyle: 'medium'})}}</p>            
+            <p><span class="font-bold text-lg m-2 text-base-100">Event start time :  </span>{{ new Date(booking.startTime).toLocaleString('en-US',{dateStyle: 'full', timeStyle: 'medium'})}}</p>            
             <p><span class="font-bold text-lg m-2 text-base-100">Duration : </span>{{booking.categoryDuration}} minutes</p>      
            <p class="mt-5 flex-row btn btn-neutral btn-xs drop-shadow-xl mr-3 ml-2">
                 
