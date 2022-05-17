@@ -52,7 +52,7 @@ const confirmAction = (bookingId,bookingName) => {
         <div v-else class=" rounded-lg bg-gray-50 text-neutral m-5 p-8 drop-shadow-xl text-left" v-for="(booking,index) in listBooking" :key="index">
             <p><span class="font-bold text-lg m-2 text-base-100">Booking name :  </span>{{ booking.bookingName}}</p>
             <p><span class="font-bold text-lg m-2 text-base-100">Event category name :  </span>{{booking.categoryName}}</p> 
-            <p><span class="font-bold text-lg m-2 text-base-100">Event start time :  </span>{{ new Date(booking.startTime).toLocaleString('en-GB',{dateStyle: 'full', timeStyle: 'medium'})}}</p>            
+            <p><span class="font-bold text-lg m-2 text-base-100">Event start time :  </span>{{ new Date(booking.startTime).toLocaleString('en-US',{dateStyle: 'full', timeStyle: 'medium'})}}</p>            
             <p><span class="font-bold text-lg m-2 text-base-100">Duration : </span>{{booking.categoryDuration}} minutes</p>      
            <p class="mt-5 flex-row btn btn-neutral btn-xs drop-shadow-xl mr-3 ml-2">
                 

@@ -2,8 +2,8 @@
 import { ref} from 'vue'
 import NewBooking from '../components/NewBooking.vue'
 import router from '../router'
-//const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
-const url = '  http://202.44.9.103:8080/ssi5/api'
+const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
+//const url = '  http://202.44.9.103:8080/ssi5/api'
 
 const Categorydetails = ref([])
 
@@ -27,7 +27,11 @@ const addBooking = async (newBookingEvent) => {
     if (res.status === 200) {
         alert('add new booking complete')
         router.push({ name: 'List' })
-    } else console.log("cannot add new booking")
+    } else {
+        alert('Error To Add, Please try again')
+        console.log("cannot add new booking")
+    }
+
     
 }
 

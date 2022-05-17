@@ -15,14 +15,18 @@ const confirmAction = (editBooking,startTime,note) => {
         return editBooking
     }
 }
+//const editBooking = computed(() => {return {startTime:new Date(props.editBook.startTime).toISOString('Asia/Bangkok',{dateStyle: 'full', timeStyle: 'long'}), note: props.editBook.note}}) 
 
-const editBooking = computed(() => {return {startTime:new Date( props.editBook.startTime).toISOString().substring(0, 16), note: props.editBook.note}})
-// console.log(editBooking.value)
+// const editBooking = computed(() => {return {startTime:new Date(props.editBook.startTime).toISOString().substring(0,16)
+// .replace('Z', '') .replace('T', '')
+const editBooking = computed(() => {return {startTime: String(props.editBook.startTime).substring(0,16) , note: props.editBook.note}})
+
+console.log(editBooking.value)
 
 </script>
  
 <template>
-<div class="pt-10 ml-auto mr-auto right-0 left-0 top-4 z-50 flex justify-center items-center md:inset-0 drop-shadow-xl">
+<div class="mt-20 pt-10 ml-auto mr-auto right-0 left-0 top-4 z-50 flex justify-center items-center md:inset-0 drop-shadow-xl">
     <form class="bg-white rounded-lg px-10 pt-10 pb-8">
         <img src="/images/edit.png" alt="online schedule" class="max-w-lg float-left m-5">
         <div class="float-right mt-12">

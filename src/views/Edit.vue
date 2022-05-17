@@ -4,8 +4,8 @@ import {ref} from 'vue'
 import EditBooking from '../components/EditBooking.vue' 
 import router from "../router";
 
-//const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
-const url = '  http://202.44.9.103:8080/ssi5/api'
+const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
+//const url = '  http://202.44.9.103:8080/ssi5/api'
 // //EDIT
 const editdetails = ref({});           
 // const toEditMode = (editNote) => {    
@@ -36,7 +36,11 @@ const editBooking = async (newedit, e) => {
 if (res.status === 200) {
     alert('edited success')
     router.push({ name: 'ListDetail' })
-  } else console.log("error, cannot be edited");
+  } else {
+   alert('Error To Edit Please try again')
+  console.log("error, cannot be edited")    
+  }
+
 }
 
 //GETById
