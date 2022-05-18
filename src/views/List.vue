@@ -1,5 +1,5 @@
 <script setup>
-import { ref,onBeforeMount } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import ListBooking from '../components/ListBooking.vue'
 const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
 //const url = '  http://202.44.9.103:8080/ssi5/api'
@@ -16,28 +16,25 @@ const getListBooking = async () => {
 onBeforeMount(() => {
   getListBooking();
 })
-
+//DELETE
 const removeEvent = async (deleteId) => {
-  const res = await fetch(`${url}/booking/${deleteId}` , {
+  const res = await fetch(`${url}/booking/${deleteId}`, {
     method: 'DELETE'
   })
-  if(res.status === 200){   
-    book.value = book.value.filter((book) => { return book.id != deleteId })     
+  if (res.status === 200) {
+    book.value = book.value.filter((book) => { return book.id != deleteId })
     // router.push({name: 'List'})
     console.log("deleted success")
-  }else {
+  } else {
     console.log("error, cannot delete data")
   }
 }
 
-
 </script>
  
 <template>
-  <ListBooking 
-  :listBooking="book"
-  @remove="removeEvent"
-  />
+  <ListBooking :listBooking="book" @remove="removeEvent" />
 </template>
  
-<style scoped></style>
+<style scoped>
+</style>
