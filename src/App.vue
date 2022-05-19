@@ -23,6 +23,9 @@
             <router-link :to="{ name: 'AddList' }">Add Event</router-link>
           </li>
           <li>
+            <router-link :to="{ name: 'CategoryList' }">CategoryList</router-link>
+          </li>
+          <li>
             <router-link :to="{ name: 'AboutUs' }">AboutUs</router-link>
           </li>
         </ul>

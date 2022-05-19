@@ -31,6 +31,12 @@ console.log(editBooking.value)
                 <h3 class="text-4xl font-semibold text-base-100 mb-2">Edit Event</h3>
                 <p class="text-sm text-neutral pl-3 mb-7">You can edit booking clinic that you want.</p>
                 <div class=" flex">
+                    <ul>
+                    <li>bookingName : {{editBook.bookingName}}</li> 
+                    <li>email : {{editBook.email}}</li> 
+                    <li>categoryDescription : {{editBook.categoryDescription}}</li> 
+                    <li>categoryDuration : {{editBook.categoryDuration}}</li> 
+                    </ul>
                     <div class="flex-1 text-neutral pt-3 pl-5">
                         <label class="block text-base-100 text-sm font-bold mb-3" for="password">Event start
                             time</label>

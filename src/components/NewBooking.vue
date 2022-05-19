@@ -12,8 +12,12 @@ const props = defineProps({
 })
 
 const newBooking = ref({})
-
+// const noteValid = ref("");
 console.log(props.categoryDetails)
+
+
+const pattern = /^[^\s@]+@[^\s@]+\.[^\s]+$/;
+
 
 </script>
 
@@ -62,14 +66,16 @@ console.log(props.categoryDetails)
 
                     <div class="text-neutral pt-3 pl-5">
                         <label class="block text-base-100 text-sm font-bold mb-3" for="password">Email</label>
-                        <input type="text" name="email" id="email" v-model="newBooking.email"
+                        <input type="text" name="email" id="email" 
+                            v-model="newBooking.email"
                             class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">
+                        <p v-show = "!newBooking.email || !">* Please input your Email</p>
                     </div>
 
                     <div class="text-neutral pt-3 pl-5">
                         <label class="block text-base-100 text-sm font-bold mb-3" for="password">Note</label>
-                        <input type="text" name="note" id="note" v-model="newBooking.note"
-                            class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">
+                        <input  type="text" name="note" id="note" v-model="newBooking.note" maxlength="500"
+                            class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5" >
                     </div>
 
                     <button
