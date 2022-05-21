@@ -17,7 +17,6 @@ const confirmAction = (bookingId, bookingName) => {
         return bookingId
     }
 }
-
 </script>
 
 <template>

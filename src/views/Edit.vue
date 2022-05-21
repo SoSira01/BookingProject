@@ -14,7 +14,7 @@ console.log(params.BookingIdEdit)
 
 const id = ref(params.BookingIdEdit)
 
-//PUT (edit)
+//PATCH (edit)
 const editBooking = async (newedit, e) => {
   e.preventDefault();
   console.log(newedit)
@@ -30,7 +30,6 @@ const editBooking = async (newedit, e) => {
     })
   })
   if (res.status === 200) {
-    alert('edited success')
     router.push({ name: 'ListDetail' })
   } else {
     alert('Error To Edit Please try again')

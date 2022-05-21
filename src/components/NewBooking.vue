@@ -1,6 +1,6 @@
 <script setup>
 
-import { ref } from 'vue'
+import { ref} from 'vue'
 
 defineEmits(['AddList'])
 
@@ -11,13 +11,15 @@ const props = defineProps({
     }
 })
 
-const newBooking = ref({})
+var today = new Date();
+var str = today.toISOString()
+
+const newBooking = ref({startTime: String(str).substring(0, 16)})
+
 // const noteValid = ref("");
-console.log(props.categoryDetails)
+// console.log(props.categoryDetails)
 
-
-const pattern = /^[^\s@]+@[^\s@]+\.[^\s]+$/;
-
+//const pattern = /^[^\s@]+@[^\s@]+\.[^\s]+$/;
 
 </script>
 
@@ -66,16 +68,18 @@ const pattern = /^[^\s@]+@[^\s@]+\.[^\s]+$/;
 
                     <div class="text-neutral pt-3 pl-5">
                         <label class="block text-base-100 text-sm font-bold mb-3" for="password">Email</label>
-                        <input type="text" name="email" id="email" 
-                            v-model="newBooking.email"
+                        <input type="text" name="email" id="email" v-model="newBooking.email"
                             class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">
-                        <p v-show = "!newBooking.email || !">* Please input your Email</p>
+                        <!-- <p v-show = "!newBooking.email || !">* Please input your Email</p> -->
                     </div>
 
                     <div class="text-neutral pt-3 pl-5">
                         <label class="block text-base-100 text-sm font-bold mb-3" for="password">Note</label>
-                        <input  type="text" name="note" id="note" v-model="newBooking.note" maxlength="500"
-                            class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5" >
+                        <!-- <div v-if="newBooking.note.length <= 500"> -->
+                        <input type="text" name="note" id="note" v-model="newBooking.note"
+                            class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">
+                        <!-- </div> -->
+                        <!-- <div v-else><input type="text" placeholder="cannot more than 500"></div> -->
                     </div>
 
                     <button

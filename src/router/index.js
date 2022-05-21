@@ -7,6 +7,7 @@ import AddList from '../views/AddList.vue'
 import AboutUs from '../views/AboutUs.vue'
 import Edit from '../views/Edit.vue'
 import CategoryList from '../views/CategoryList.vue'
+import EditCategory from '../views/EditCategory.vue'
 
 const history = createWebHistory('/ssi5/')
 const routes = [
@@ -34,6 +35,11 @@ const routes = [
         path: '/edit/:BookingId',
         name: 'Edit',
         component: Edit
+    },
+    {
+        path: '/editCategory/:CategoryId',
+        name: 'EditCategory',
+        component: EditCategory
     },
     {
         path: '/AboutUs',

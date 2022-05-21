@@ -30,13 +30,27 @@ console.log(editBooking.value)
             <div class="float-right mt-12">
                 <h3 class="text-4xl font-semibold text-base-100 mb-2">Edit Event</h3>
                 <p class="text-sm text-neutral pl-3 mb-7">You can edit booking clinic that you want.</p>
+
                 <div class=" flex">
-                    <ul>
-                    <li>bookingName : {{editBook.bookingName}}</li> 
-                    <li>email : {{editBook.email}}</li> 
-                    <li>categoryDescription : {{editBook.categoryDescription}}</li> 
-                    <li>categoryDuration : {{editBook.categoryDuration}}</li> 
-                    </ul>
+                    <div class="flex-1 text-neutral pt-3 pl-5">
+                        <p class="block text-base-100 text-sm font-bold mb-3">bookingName :
+                            <span>{{ editBook.bookingName }}</span>
+                        </p>
+                    </div>
+                    <div class="flex-1 text-neutral pt-3 pl-5">
+                        <p class="block text-base-100 text-sm font-bold mb-3">email : 
+                            <span>{{ editBook.email }}</span>
+                        </p>
+                    </div>
+                    <div class="flex-1 text-neutral pt-3 pl-5">
+                        <p class="block text-base-100 text-sm font-bold mb-3">categoryDescription :
+                            <span>{{ editBook.categoryDescription }}</span></p>
+                    </div>
+                    <div class="flex-1 text-neutral pt-3 pl-5">
+                        <p class="block text-base-100 text-sm font-bold mb-3">categoryDuration :
+                            <span>{{ editBook.categoryDuration }}</span></p>
+                    </div>
+
                     <div class="flex-1 text-neutral pt-3 pl-5">
                         <label class="block text-base-100 text-sm font-bold mb-3" for="password">Event start
                             time</label>
@@ -51,7 +65,8 @@ console.log(editBooking.value)
                 </div>
 
                 <br>
-                <button @click="$emit('edit', confirmAction(editBooking, editBooking.startTime, editBooking.note), $event)"
+                <button
+                    @click="$emit('edit', confirmAction(editBooking, editBooking.startTime, editBooking.note), $event)"
                     class="pt-3 pl-5 w-full rounded-lg text-sm px-10 py-2.5 text-center mt-5 btn btn-warning drop-shadow-xl">confirm
                     edit</button>
 
