@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "vue"
+import {computed } from "vue";
 defineEmits(['edit'])
 
 const props = defineProps({
@@ -16,9 +16,7 @@ const confirmAction = (editBooking, startTime, note) => {
     }
 }
 
-const editBooking = computed(() => { return { startTime: String(props.editBook.startTime).substring(0, 16), note: props.editBook.note } })
-
-console.log(editBooking.value)
+const editBooking = computed(() => {return {startTime: String(props.editBook.startTime).substring(0, 16)}})
 
 </script>
  
@@ -60,7 +58,9 @@ console.log(editBooking.value)
                 </div>
                 <div class="text-neutral pt-3 pl-5">
                     <label class="block text-base-100 text-sm font-bold mb-3" for="password">Note</label>
-                    <input type="text" name="note" id="note" v-model="editBooking.note"
+                    <span v-if="props.editBook.note && props.editBook.note.length >= 500" class="text-warning"> 
+                        You add more than 500 characters </span> 
+                    <input type="text" name="note" id="note" v-model="props.editBook.note"
                         class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">
                 </div>
 

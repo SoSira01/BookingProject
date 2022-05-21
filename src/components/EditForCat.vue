@@ -26,7 +26,7 @@ console.log(editCat.value)
 <template>
 <div
         class="mt-20 pt-10 ml-auto mr-auto right-0 left-0 top-4 z-50 flex justify-center items-center md:inset-0 drop-shadow-xl">
-        <form class="bg-white rounded-lg px-10 pt-10 pb-8">
+        <form class="bg-white rounded-lg px-10 pt-3 pb-8">
             <div class="float-right mt-12">
                 <h3 class="text-4xl font-semibold text-base-100 mb-2">Edit Category</h3>
                 <p class="text-sm text-neutral pl-3 mb-7">You can edit any category feild that you want.</p>
@@ -39,6 +39,7 @@ console.log(editCat.value)
 
                 <div class="text-neutral pt-3 pl-5">
                     <label class="block text-base-100 text-sm font-bold mb-3" for="password">duration</label>
+                    
                     <input type="number" name="duration" id="duration" v-model="editCat.duration"
                         class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">
                 </div>
@@ -46,7 +47,7 @@ console.log(editCat.value)
                 <div class="text-neutral pt-3 pl-5">
                     <label class="block text-base-100 text-sm font-bold mb-3" for="password">description</label>
                     <input type="text" name="description" id="description" v-model="editCat.categoryDescription"
-                        class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">
+                        class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5">
                 </div>
 
                 <br>

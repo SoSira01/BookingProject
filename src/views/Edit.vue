@@ -44,7 +44,8 @@ const getListBookingById = async () => {
   if (res.status === 200) {
     editdetails.value = await res.json()
     console.log(editdetails.value)
-  } else console.log('error, cannot get editdetails')
+  } else 
+  console.log('error, cannot get editdetails')
 }
 
 getListBookingById();

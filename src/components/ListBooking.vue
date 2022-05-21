@@ -17,6 +17,18 @@ const confirmAction = (bookingId, bookingName) => {
         return bookingId
     }
 }
+// filter
+// const filterStartDate=ref('')
+// const filterStatus=ref('')
+// const filterCategory=ref('')
+// const isFilter =ref(false)
+
+
+// const filter = () => {
+//  if(filterCate.value == '1')
+
+// }
+
 </script>
 
 <template>
@@ -26,7 +38,7 @@ const confirmAction = (bookingId, bookingName) => {
         <div class="flex-1 text-neutral pt-3 pl-5 w-64 float-left ml-10">
             <label class="block text-white text-sm font-bold mb-3 w-64 float-left" for="category">Find by
                 category</label>
-            <select name="category" id="category"
+            <select name="category" id="category" v-model="selectCat"
                 class=" select bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5 ">
                 <option value="1">Project Management Clinic</option>
                 <option value="2">DevOps/Infra Clinic</option>
