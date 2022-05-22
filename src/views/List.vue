@@ -1,12 +1,12 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue'
 import ListBooking from '../components/ListBooking.vue'
+
 //const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
 const url = '  http://202.44.9.103:8080/ssi5/api'
 const book = ref([])
 const category =ref([])
 const filterCategory = ref([])
-
 //GET AllBooking
 const getListBooking = async () => {
   const res = await fetch(`${url}/booking`)
@@ -40,17 +40,25 @@ const getAllListCategory = async () => {
 }
 
 //Filter by categoryId
-const getFilterCategory = async () => {
-  const res = await fetch(`${url}/booking/filter/${CategoryId}`) //CategoryId from listbooking      
+const getFilterCategory = async (filterId) => {
+  console.log(filterId)
+  if(filterId > 0 ){
+      const res = await fetch(`${url}/booking/filter/${filterId}`)
+
   if (res.status === 200) {
     filterCategory.value = await res.json()
     console.log(filterCategory.value)
   } else console.log('error, cannot get Category List')
+
+  } else getListBooking();
 }
 
-onBeforeMount(() => { getListBooking(); })
-getAllListCategory();
-getFilterCategory();
+// onBeforeMount(() => {
+//    getListBooking();
+//     })
+
+getFilterCategory()
+getAllListCategory()
 
 </script>
  
@@ -59,6 +67,7 @@ getFilterCategory();
   :listBooking="book"
   :categoryList="category"
   :categoryListFilter="filterCategory"
+  @filter="getFilterCategory"
   @remove="removeEvent" />
 </template>
  

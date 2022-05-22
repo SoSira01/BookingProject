@@ -11,13 +11,9 @@ const props = defineProps({
     }
 })
 
-var today = new Date();
-var str = today.toISOString()
-
-const newBooking = ref({startTime: String(str).substring(0, 16)})
+const newBooking = ref({})
 
 //const pattern = /^[^\s@]+@[^\s@]+\.[^\s]+$/;
-
 
 </script>
 
@@ -37,7 +33,7 @@ const newBooking = ref({startTime: String(str).substring(0, 16)})
                             <input pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" required 
                                 name="bookingName" id="bookingName" v-model="newBooking.bookingName"
                                 class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5"
-                                placeholder="--- Please input your Booking name ---">
+                                placeholder="--- Ex. Somsri.Rakdee@kmutt.ac.th ---">
                         </div>
                     </div>
                     <div class=" flex">
@@ -68,17 +64,20 @@ const newBooking = ref({startTime: String(str).substring(0, 16)})
 
                     <div class="text-neutral pt-3 pl-5">
                         <label class="block text-base-100 text-sm font-bold mb-3" for="password">Email</label>
+                        <!-- <span v-if="newBooking.email != pattern" class="text-error">
+                            * Ex.Somchai.jaidee@kmutt.ac.th 
+                        </span> -->
                         <input pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" required 
                             name="email" id="email" v-model="newBooking.email" 
                             class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5"
-                            placeholder="--- Ex.Somchai.jaidee@kmutt.ac.th ---">
+                            placeholder="--- Please input your email ---">
                         <p></p>
                     </div>
 
                     <div class="text-neutral pt-3 pl-5">
                         <label class="block text-base-100 text-sm font-bold mb-3" for="password">Note</label>
                         <span v-if="newBooking.note && newBooking.note.length > 500" class="text-error"> 
-                        You add more than 500 characters </span> 
+                        * You add more than 500 characters </span> 
                         <input type="text" name="note" id="note" v-model="newBooking.note"
                             class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">
                         

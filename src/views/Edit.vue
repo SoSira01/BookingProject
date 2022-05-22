@@ -16,6 +16,7 @@ const id = ref(params.BookingIdEdit)
 
 //PATCH (edit)
 const editBooking = async (newedit, e) => {
+  
   e.preventDefault();
   console.log(newedit)
   const res = await fetch(`${url}/booking/${id.value}`, {

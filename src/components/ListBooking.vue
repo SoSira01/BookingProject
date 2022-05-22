@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from "vue"
-defineEmits(['remove', 'details'])
+import { computed } from "@vue/reactivity";
+import {ref} from "vue"
+defineEmits(['remove', 'details','filter'])
 
  const prop = defineProps({
 
@@ -27,30 +28,9 @@ const confirmAction = (bookingId, bookingName) => {
         return bookingId
     }
 }
-// filter
-// filter no value in filterCategory need value from <option> (cat.categoryName)
-// const listcat = ref(prop.categorylist)
-// const filterStartDate=ref('')
-// const filterStatus = ref('')
-// const filterCategory = ref('')
-// const isFilter =ref(false)
 
-// const filter = () => {
-//   if(filterCategory.value==''){
-//     alert('input in form if you want to filter')
-    
-//   }else if (filterCategory.value !== '')
-//         for (let filter of listcat.value)
-//             if (filter.categoryName == filterCategory.value) {
-//                 listcat.value = filter.value.push(filter)
-//             }
-//             console.log("working")
-// }
-// const reset = () => {
-//     filterCategory.value = ''
-//     console.log("reset success")
-// }
-
+const filterCategory = ref({})
+console.log(filterCategory.value)
 </script>
 
 <template>
@@ -58,21 +38,17 @@ const confirmAction = (bookingId, bookingName) => {
         <p class="text-4xl font-semibold text-white text-center">List Booking</p>
         <br>
         <div class="flex-1 text-neutral pt-3 pl-5 w-64 float-left ml-10">
-            <label class="block text-white text-sm font-bold mb-3 w-64 float-left" for="category">Find by
-                category</label>
-            <select name="category" id="category"
+            <label class="block text-white text-sm font-bold mb-3 w-64 float-left" for="category">Find by category</label>
+
+            <select name="category" id="category" v-model="filterCategory"
                 class=" select bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5 ">
-                <!-- <option value="1">Project Management Clinic</option>
-                <option value="2">DevOps/Infra Clinic</option>
-                <option value="3">Database Clinic</option>
-                <option value="4">Client-side Clinic</option>
-                <option value="5">server-side Clinic</option> -->
-                <option :value="cat.categoryId" v-for= "(cat, index) in categoryList" :key="index">
+                <option :value="cat" v-for= "(cat, index) in categoryList" :key="index">
                 {{ cat.categoryName }}
                 </option>
             </select>
-            <button @click="reset" class="custom-btn reset"> Reset</button>
-            <button @click="filter" class="custom-btn search">Search</button>
+            <button @click="$emit('filter',filterCategory.id == 0)" class="my-2 flex-row btn btn-outline btn-error btn-xs drop-shadow-xl"> Reset</button>
+            <button @click="$emit('filter',filterCategory.id)" class="my-2 flex-row btn btn-outline btn-error btn-xs drop-shadow-xl">Search</button>
+
         </div>
 
         <div class="grid grid-cols-1 w-7/12 ml-auto mr-auto">

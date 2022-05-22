@@ -12,6 +12,23 @@ console.log(params.CategoryId)
 
 const id = ref(params.CategoryId)
 
+//validate duraiton
+const durationTime = ref('')
+
+const durationNotNull = (dn) => {
+  if(dn !== undefined && dn.length !== 0){
+    return true;
+  }
+  return false
+}
+
+const durationValid = (dn) => {
+  if(dn > 480 || dn < 1){
+    return true;
+  }
+  return false
+}
+
 //EDIT
 const editValue = ref({});
 
@@ -19,6 +36,15 @@ const editValue = ref({});
 const editCategory = async (editing, e) => {
   e.preventDefault();
   console.log(editing)
+  //validate duration here
+  if(!durationNotNull(editing)){
+    alert("cannot be empty")
+    return
+  }else if (!durationNotNull(editing)){
+    alert("you can add number only between 1 - 480")
+    return
+  }
+
   const res = await fetch(`${url}/category/${id.value}`, {
     method: 'PATCH',
     headers: {

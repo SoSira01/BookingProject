@@ -33,7 +33,6 @@ const addBooking = async (newBookingEvent) => {
         console.log("cannot add new booking")
     }
 
-
 }
   
 const getListCategory = async () => {
