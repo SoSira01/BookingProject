@@ -1,5 +1,5 @@
 <script setup>
-import {computed } from "vue";
+import {ref,computed } from "vue";
 defineEmits(['edit'])
 
 const props = defineProps({
@@ -16,16 +16,19 @@ const confirmAction = (editBooking, startTime, note) => {
     }
 }
 
-const editBooking = computed(() => {return {startTime: String(props.editBook.startTime).substring(0, 16)}})
-
+//computed not working with validate note more than 500 
+//however  using ref working but ref no default value from ListDetail (startTime and note) 
+// const editBooking = computed(() => {return {startTime: String(props.editBook.startTime).substring(0, 16) , note: props.editBook.note}})
+const editBooking = ref({startTime: String(time.value).substring(0, 16), note: props.editBook.note})
 </script>
  
 <template>
+    <div>
     <div
         class="mt-20 pt-10 ml-auto mr-auto right-0 left-0 top-4 z-50 flex justify-center items-center md:inset-0 drop-shadow-xl">
         <form class="bg-white rounded-lg px-10 pt-10 pb-8">
-            <img src="/images/edit.png" alt="online schedule" class="max-w-lg float-left m-5">
-            <div class="float-right mt-12">
+            <img src="/images/edit.png" alt="online schedule" class="max-w-lg float-left m-5 mt-10">
+            <div class="float-right mt-5">
                 <h3 class="text-4xl font-semibold text-base-100 mb-2">Edit Event</h3>
                 <p class="text-sm text-neutral pl-3 mb-7">You can edit booking clinic that you want.</p>
 
@@ -35,11 +38,13 @@ const editBooking = computed(() => {return {startTime: String(props.editBook.sta
                             <span>{{ editBook.bookingName }}</span>
                         </p>
                     </div>
+                </div>
                     <div class="flex-1 text-neutral pt-3 pl-5">
                         <p class="block text-base-100 text-sm font-bold mb-3">email : 
                             <span>{{ editBook.email }}</span>
                         </p>
                     </div>
+                    
                     <div class="flex-1 text-neutral pt-3 pl-5">
                         <p class="block text-base-100 text-sm font-bold mb-3">categoryDescription :
                             <span>{{ editBook.categoryDescription }}</span></p>
@@ -55,12 +60,12 @@ const editBooking = computed(() => {return {startTime: String(props.editBook.sta
                         <input type="datetime-local" name="startTime" id="startTime" v-model="editBooking.startTime"
                             class="bg-gray-50 border border-gray-300 text-sm rounded-lg  block w-full p-2.5">
                     </div>
-                </div>
+                
                 <div class="text-neutral pt-3 pl-5">
                     <label class="block text-base-100 text-sm font-bold mb-3" for="password">Note</label>
-                    <span v-if="props.editBook.note && props.editBook.note.length >= 500" class="text-warning"> 
+                    <span v-if="editBooking.note && editBooking.note.length >= 500" class="text-warning"> 
                         You add more than 500 characters </span> 
-                    <input type="text" name="note" id="note" v-model="props.editBook.note"
+                    <input type="text" name="note" id="note" v-model="editBooking.note"
                         class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">
                 </div>
 
@@ -74,6 +79,7 @@ const editBooking = computed(() => {return {startTime: String(props.editBook.sta
             </div>
         </form>
     </div>
+</div>
 </template>
  
 <style>

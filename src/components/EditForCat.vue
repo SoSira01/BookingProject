@@ -11,6 +11,7 @@ const props = defineProps({
 })
 
 
+
 const confirmAction = (editCat, categoryName, duration,categoryDescription) => {
     let confirmAction = confirm(`Do you want to Edit: Name: ${categoryName}  duration: ${duration} Description${categoryDescription}`)
     if (confirmAction) {
@@ -39,9 +40,9 @@ console.log(editCat.value)
 
                 <div class="text-neutral pt-3 pl-5">
                     <label class="block text-base-100 text-sm font-bold mb-3" for="password">duration</label>
-                    
+        
                     <input type="number" name="duration" id="duration" v-model="editCat.duration"
-                        class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">
+                        class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5" >
                 </div>
 
                 <div class="text-neutral pt-3 pl-5">

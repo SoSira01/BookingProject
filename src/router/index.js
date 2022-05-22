@@ -32,12 +32,12 @@ const routes = [
         component: AddList
     },
     {
-        path: '/edit/:BookingId',
+        path: '/List/:BookingId/edit/:BookingIdEdit',
         name: 'Edit',
         component: Edit
     },
     {
-        path: '/editCategory/:CategoryId',
+        path: '/CatagoryList/editCategory/:CategoryId',
         name: 'EditCategory',
         component: EditCategory
     },

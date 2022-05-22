@@ -34,7 +34,7 @@ const confirmAction = (bookingId, bookingName) => {
                 </p>
                 <p><span class="font-bold text-lg m-2 text-base-100">Duration :
                     </span>{{ listDetailBooking.categoryDuration }} minutes</p>
-                <p v-if = "listDetailBooking.note != null "><span class="font-bold text-lg m-2 text-base-100">Note : </span>{{ listDetailBooking.note }}</p>
+                <p v-if = "listDetailBooking.note != null " ><span class="font-bold text-lg m-2 text-base-100">Note : </span>{{ listDetailBooking.note }}</p>
                 <p v-else><span class="font-bold text-lg m-2 text-base-100">Note :</span> No note</p>
                 <router-link class="mt-5 btn btn-xs drop-shadow-xl mr-3" :to="{ name: 'List' }">BACK</router-link>
                 <router-link class="mt-5 flex-row btn btn-base-100 btn-xs drop-shadow-xl mr-3" :to="{

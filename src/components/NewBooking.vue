@@ -35,15 +35,17 @@ const newBooking = ref({startTime: String(str).substring(0, 16)})
                         <div class="flex-1 text-neutral pt-3 pl-5">
                             <label class="block text-base-100 text-sm font-bold mb-3" for="password">Bookingname</label>
                             <input type="text" name="bookingName" id="bookingName" v-model="newBooking.bookingName"
-                                class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">
+                                class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5"
+                                placeholder="--- Please input your Booking name ---">
                         </div>
                     </div>
                     <div class=" flex">
-                        <div class="flex-1 text-neutral pt-3 pl-5">
+                        <div class="flex-1 text-neutral pt-3 pl-5 pr-5">
                             <label class="block text-base-100 text-sm font-bold mb-3" for="category">Event category
                                 name</label>
                             <select name="category" id="category" v-model="newBooking.category"
-                                class=" select bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5 ">
+                                class=" select bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5">
+                                <option value="" disabled selected>Please select your category</option>
                                 <option :value="categoryDetail" v-for="(categoryDetail, index) in categoryDetails"
                                     :key="index">
                                     {{ categoryDetail.categoryName }}
@@ -66,9 +68,9 @@ const newBooking = ref({startTime: String(str).substring(0, 16)})
 
                     <div class="text-neutral pt-3 pl-5">
                         <label class="block text-base-100 text-sm font-bold mb-3" for="password">Email</label>
-                        <input type="text" name="email" id="email" v-model="newBooking.email"
-                            class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">
-                        <!-- <p v-show = "!newBooking.email || !">* Please input your Email</p> -->
+                        <input type="text" name="email" id="email" v-model="newBooking.email" 
+                            class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5"
+                            placeholder="--- Please input your Email ---">
                     </div>
 
                     <div class="text-neutral pt-3 pl-5">
