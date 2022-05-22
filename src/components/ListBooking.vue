@@ -9,7 +9,12 @@ defineEmits(['remove', 'details'])
         require: true,
         default: []
     },
-   categorylist:{
+   categoryList:{
+        type: Array,
+        require: true,
+        default: []
+    },
+   categoryListFilter:{
         type: Array,
         require: true,
         default: []
@@ -24,28 +29,27 @@ const confirmAction = (bookingId, bookingName) => {
 }
 // filter
 // filter no value in filterCategory need value from <option> (cat.categoryName)
-const listcat = ref(prop.categorylist)
+// const listcat = ref(prop.categorylist)
 // const filterStartDate=ref('')
 // const filterStatus = ref('')
-const filterCategory = ref('')
+// const filterCategory = ref('')
 // const isFilter =ref(false)
 
-
-const filter = () => {
-  if(filterCategory.value==''){
-    alert('input in form if you want to filter')
+// const filter = () => {
+//   if(filterCategory.value==''){
+//     alert('input in form if you want to filter')
     
-  }else if (filterCategory.value !== '')
-        for (let filter of listcat.value)
-            if (filter.categoryName == filterCategory.value) {
-                listcat.value = filter.value.push(filter)
-            }
-            console.log("working")
-}
-const reset = () => {
-    filterCategory.value = ''
-    console.log("reset success")
-}
+//   }else if (filterCategory.value !== '')
+//         for (let filter of listcat.value)
+//             if (filter.categoryName == filterCategory.value) {
+//                 listcat.value = filter.value.push(filter)
+//             }
+//             console.log("working")
+// }
+// const reset = () => {
+//     filterCategory.value = ''
+//     console.log("reset success")
+// }
 
 </script>
 
@@ -63,7 +67,7 @@ const reset = () => {
                 <option value="3">Database Clinic</option>
                 <option value="4">Client-side Clinic</option>
                 <option value="5">server-side Clinic</option> -->
-                <option :value="cat.categoryName" v-for= "(cat, index) in categorylist" :key="index">
+                <option :value="cat.categoryId" v-for= "(cat, index) in categoryList" :key="index">
                 {{ cat.categoryName }}
                 </option>
             </select>

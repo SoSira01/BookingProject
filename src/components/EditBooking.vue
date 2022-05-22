@@ -5,9 +5,10 @@ defineEmits(['edit'])
 const props = defineProps({
     editBook: {
         type: Object,
-        default: {}
+        require: true
     }
 })
+console.log(props.editBook)
 
 const confirmAction = (editBooking, startTime, note) => {
     let confirmAction = confirm(`Do you want to Edit: startTime: ${startTime} Note: ${note}`)
@@ -16,10 +17,22 @@ const confirmAction = (editBooking, startTime, note) => {
     }
 }
 
+const editBooking = ref({
+    startTime: props.editBook.startTime,
+    note : props.editBook.note
+})
+
 //computed not working with validate note more than 500 
 //however  using ref working but ref no default value from ListDetail (startTime and note) 
+// const showErrorText = (() => {
+//     if(editBooking.note != null){
+//         return editBooking.note.length >= 500
+//     }
+//     return false
+// })
+
 // const editBooking = computed(() => {return {startTime: String(props.editBook.startTime).substring(0, 16) , note: props.editBook.note}})
-const editBooking = ref({startTime: String(time.value).substring(0, 16), note: props.editBook.note})
+// const editBooking = ref({startTime: String(time.value).substring(0, 16), note: props.editBook.note})
 </script>
  
 <template>
@@ -31,7 +44,9 @@ const editBooking = ref({startTime: String(time.value).substring(0, 16), note: p
             <div class="float-right mt-5">
                 <h3 class="text-4xl font-semibold text-base-100 mb-2">Edit Event</h3>
                 <p class="text-sm text-neutral pl-3 mb-7">You can edit booking clinic that you want.</p>
-
+                editBook : {{editBook}}
+                <br>
+                editBooking : {{editBooking}}
                 <div class=" flex">
                     <div class="flex-1 text-neutral pt-3 pl-5">
                         <p class="block text-base-100 text-sm font-bold mb-3">bookingName :
@@ -55,18 +70,18 @@ const editBooking = ref({startTime: String(time.value).substring(0, 16), note: p
                     </div>
 
                     <div class="flex-1 text-neutral pt-3 pl-5">
-                        <label class="block text-base-100 text-sm font-bold mb-3" for="password">Event start
-                            time</label>
+                        <label class="block text-base-100 text-sm font-bold mb-3" for="password">Event start time</label>
                         <input type="datetime-local" name="startTime" id="startTime" v-model="editBooking.startTime"
                             class="bg-gray-50 border border-gray-300 text-sm rounded-lg  block w-full p-2.5">
                     </div>
                 
                 <div class="text-neutral pt-3 pl-5">
                     <label class="block text-base-100 text-sm font-bold mb-3" for="password">Note</label>
-                    <span v-if="editBooking.note && editBooking.note.length >= 500" class="text-warning"> 
+                    <span v-show="editBooking.note != null ? editBooking.note.length >= 500 : false" class="text-warning"> 
                         You add more than 500 characters </span> 
                     <input type="text" name="note" id="note" v-model="editBooking.note"
                         class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">
+              
                 </div>
 
                 <br>

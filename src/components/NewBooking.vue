@@ -34,7 +34,8 @@ const newBooking = ref({startTime: String(str).substring(0, 16)})
                     <div class=" flex">
                         <div class="flex-1 text-neutral pt-3 pl-5">
                             <label class="block text-base-100 text-sm font-bold mb-3" for="password">Bookingname</label>
-                            <input type="text" name="bookingName" id="bookingName" v-model="newBooking.bookingName"
+                            <input pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" required 
+                                name="bookingName" id="bookingName" v-model="newBooking.bookingName"
                                 class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5"
                                 placeholder="--- Please input your Booking name ---">
                         </div>
@@ -44,7 +45,7 @@ const newBooking = ref({startTime: String(str).substring(0, 16)})
                             <label class="block text-base-100 text-sm font-bold mb-3" for="category">Event category
                                 name</label>
                             <select name="category" id="category" v-model="newBooking.category"
-                                class=" select bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5">
+                                class=" select bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full">
                                 <option value="" disabled selected>Please select your category</option>
                                 <option :value="categoryDetail" v-for="(categoryDetail, index) in categoryDetails"
                                     :key="index">
@@ -59,23 +60,24 @@ const newBooking = ref({startTime: String(str).substring(0, 16)})
                         </div>
 
                         <div class="flex-1 text-neutral pt-3 pl-5">
-                            <label class="block text-base-100 text-sm font-bold mb-3" for="password">Event start
-                                time</label>
-                            <input type="datetime-local" name="startTime" id="startTime" v-model="newBooking.startTime"
+                            <label class="block text-base-100 text-sm font-bold mb-3" for="password">Event start time</label>
+                            <input type="datetime-local" name="startTime" id="startTime" v-model="newBooking.startTime" required 
                                 class="bg-gray-50 border border-gray-300 text-sm rounded-lg  block w-full p-2.5">
                         </div>
                     </div>
 
                     <div class="text-neutral pt-3 pl-5">
                         <label class="block text-base-100 text-sm font-bold mb-3" for="password">Email</label>
-                        <input type="text" name="email" id="email" v-model="newBooking.email" 
+                        <input pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" required 
+                            name="email" id="email" v-model="newBooking.email" 
                             class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5"
-                            placeholder="--- Please input your Email ---">
+                            placeholder="--- Ex.Somchai.jaidee@kmutt.ac.th ---">
+                        <p></p>
                     </div>
 
                     <div class="text-neutral pt-3 pl-5">
                         <label class="block text-base-100 text-sm font-bold mb-3" for="password">Note</label>
-                        <span v-if="newBooking.note && newBooking.note.length > 500" class="text-warning"> 
+                        <span v-if="newBooking.note && newBooking.note.length > 500" class="text-error"> 
                         You add more than 500 characters </span> 
                         <input type="text" name="note" id="note" v-model="newBooking.note"
                             class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">

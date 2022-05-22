@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import { ref } from 'vue'
+import { ref,onBeforeMount } from 'vue'
 import EditBooking from '../components/EditBooking.vue'
 import router from "../router";
 
@@ -48,7 +48,8 @@ const getListBookingById = async () => {
   console.log('error, cannot get editdetails')
 }
 
-getListBookingById();
+onBeforeMount(() => {getListBookingById()})
+// getListBookingById();
 
 </script>
  

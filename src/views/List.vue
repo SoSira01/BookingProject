@@ -4,8 +4,10 @@ import ListBooking from '../components/ListBooking.vue'
 //const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
 const url = '  http://202.44.9.103:8080/ssi5/api'
 const book = ref([])
-const category = ref([])
-//GET
+const category =ref([])
+const filterCategory = ref([])
+
+//GET AllBooking
 const getListBooking = async () => {
   const res = await fetch(`${url}/booking`)
   if (res.status === 200) {
@@ -13,10 +15,8 @@ const getListBooking = async () => {
     console.log(book.value)
   } else console.log('error, cannot get listNotes')
 }
-onBeforeMount(() => {
-  getListBooking();
-})
-//DELETE
+
+//DELETE booking
 const removeEvent = async (deleteId) => {
   const res = await fetch(`${url}/booking/${deleteId}`, {
     method: 'DELETE'
@@ -29,21 +29,36 @@ const removeEvent = async (deleteId) => {
     console.log("error, cannot delete data")
   }
 }
-//GET Category
+
+//GET category
 const getAllListCategory = async () => {
-  const res = await fetch(`${url}/category`)
+  const res = await fetch(`${url}/category`)    
   if (res.status === 200) {
     category.value = await res.json()
     console.log(category.value)
   } else console.log('error, cannot get Category List')
 }
+
+//Filter by categoryId
+const getFilterCategory = async () => {
+  const res = await fetch(`${url}/booking/filter/${CategoryId}`) //CategoryId from listbooking      
+  if (res.status === 200) {
+    filterCategory.value = await res.json()
+    console.log(filterCategory.value)
+  } else console.log('error, cannot get Category List')
+}
+
+onBeforeMount(() => { getListBooking(); })
 getAllListCategory();
+getFilterCategory();
+
 </script>
  
 <template>
   <ListBooking 
   :listBooking="book"
-  :categorylist="category"
+  :categoryList="category"
+  :categoryListFilter="filterCategory"
   @remove="removeEvent" />
 </template>
  
