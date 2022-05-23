@@ -37,8 +37,7 @@ const filterCategory = ref({})
             <select name="category" id="category" v-model="filterCategory"
                 class=" select bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5 ">
                 <option :value="cat" v-for= "(cat, index) in categoryList" :key="index">
-                {{ cat.categoryName }}
-                </option>
+                {{ cat.categoryName }}  </option>
             </select>
             <button @click="$emit('filter',filterCategory.id == 0)" class="my-2 flex-row btn btn-outline btn-warning btn-xs drop-shadow-xl mr-3 mt-5"> Reset</button>
             <button @click="$emit('filter',filterCategory.id)" class="my-2 flex-row btn btn-outline btn-white btn-xs drop-shadow-xl mt-5">Search</button>

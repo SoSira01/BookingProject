@@ -17,12 +17,13 @@ const id = ref(params.BookingIdEdit)
 
 //PATCH (edit)
 const editBooking = async (newedit, e) => {
-  //validate note length
-   if(newedit.note.length >= 500){
-    alert("you cannot add number more than 500 characters")
-    return
-   }
   e.preventDefault();  //prevent to refresh page
+  
+    if (editing.duration > 481 || editing.duration < 1){
+    alert("you can add number only between 1 - 480")
+    return
+  }
+
   console.log(newedit)
   const res = await fetch(`${url}/booking/${id.value}`, {
     method: 'PATCH',

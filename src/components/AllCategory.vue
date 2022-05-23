@@ -30,13 +30,12 @@ console.log(prop.allcategory);
                         class="font-bold text-lg text-base-100">Description : </span>{{ allCat.categoryDescription }}
                 </p>
                 <p v-else><span class="font-bold text-lg  text-base-100">Description : </span>No description</p>
-                
+
                 <router-link class="mt-5 flex-row btn btn-base-100 btn-xs drop-shadow-xl mr-3" :to="{
                     name: 'EditCategory',
                     params: {
                         CategoryId: allCat.id
-                    }
-                }">
+                    } }">
                     Edit
                 </router-link>
             </div>
