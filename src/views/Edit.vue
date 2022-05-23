@@ -6,6 +6,7 @@ import router from "../router";
 
 //const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
 const url = '  http://202.44.9.103:8080/ssi5/api'
+
 //EDIT
 const editdetails = ref({});
 
@@ -16,8 +17,12 @@ const id = ref(params.BookingIdEdit)
 
 //PATCH (edit)
 const editBooking = async (newedit, e) => {
-  
-  e.preventDefault();
+  //validate note length
+   if(newedit.note.length >= 500){
+    alert("you cannot add number more than 500 characters")
+    return
+   }
+  e.preventDefault();  //prevent to refresh page
   console.log(newedit)
   const res = await fetch(`${url}/booking/${id.value}`, {
     method: 'PATCH',
@@ -50,7 +55,7 @@ const getListBookingById = async () => {
 }
 
 onBeforeMount(() => {getListBookingById()})
-// getListBookingById();
+
 
 </script>
  

@@ -32,12 +32,14 @@ console.log(editCat.value)
                 <h3 class="text-4xl font-semibold text-base-100 mb-2">Edit Category</h3>
                 <p class="text-sm text-neutral pl-3 mb-7">You can edit any category feild that you want.</p>
 
+                <!--Category name-->
                 <div class="text-neutral pt-3 pl-5">
                     <label class="block text-base-100 text-sm font-bold mb-3" for="password">Name</label>
                     <input type="text" name="note" id="note" v-model="editCat.categoryName"
                         class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">
                 </div>
 
+                <!--duration-->
                 <div class="text-neutral pt-3 pl-5">
                     <label class="block text-base-100 text-sm font-bold mb-3" for="password">duration</label>
         
@@ -45,6 +47,7 @@ console.log(editCat.value)
                         class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5" >
                 </div>
 
+                <!--description-->
                 <div class="text-neutral pt-3 pl-5">
                     <label class="block text-base-100 text-sm font-bold mb-3" for="password">description</label>
                     <input type="text" name="description" id="description" v-model="editCat.categoryDescription"

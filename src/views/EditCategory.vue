@@ -4,30 +4,13 @@ import { ref } from 'vue'
 import EditForCat from '../components/EditForCat.vue'
 import router from "../router";
 
-//const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
-const url = '  http://202.44.9.103:8080/ssi5/api'
+const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
+//const url = '  http://202.44.9.103:8080/ssi5/api'
 
 let { params } = useRoute()
 console.log(params.CategoryId)
 
 const id = ref(params.CategoryId)
-
-//validate duraiton
-const durationTime = ref('')
-
-const durationNotNull = (dn) => {
-  if(dn !== undefined && dn.length !== 0){
-    return true;
-  }
-  return false
-}
-
-const durationValid = (dn) => {
-  if(dn > 480 || dn < 1){
-    return true;
-  }
-  return false
-}
 
 //EDIT
 const editValue = ref({});
@@ -36,15 +19,15 @@ const editValue = ref({});
 const editCategory = async (editing, e) => {
   e.preventDefault();
   console.log(editing)
-  //validate duration here
-  if(!durationNotNull(editing)){
-    alert("cannot be empty")
+  //validate description and duration
+  if(editing.categoryDescription == null || editing.categoryDescription == ""){
+    alert("description cannot be empty")
     return
-  }else if (!durationNotNull(editing)){
+  }else if (editing.duration >= 480 || editing.duration < 1){
     alert("you can add number only between 1 - 480")
     return
   }
-
+  
   const res = await fetch(`${url}/category/${id.value}`, {
     method: 'PATCH',
     headers: {
@@ -58,12 +41,13 @@ const editCategory = async (editing, e) => {
   })
   if (res.status === 200) {
     router.push({ name: 'CategoryList' })
-  } else {
+  } else if (res.status === 400){
+    alert('Error To Edit Please try again, Name should be Unique')
+  }else     
     alert('Error To Edit Please try again')
     console.log("error, cannot be edited")
   }
 
-}
 //GETById
 const getListCategoryById = async () => {
   const res = await fetch(`${url}/category/${id.value}`);

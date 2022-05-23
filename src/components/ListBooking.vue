@@ -1,21 +1,14 @@
 <script setup>
-import { computed } from "@vue/reactivity";
 import {ref} from "vue"
 defineEmits(['remove', 'details','filter'])
 
  const prop = defineProps({
-
     listBooking: {
         type: Array,
         require: true,
         default: []
     },
    categoryList:{
-        type: Array,
-        require: true,
-        default: []
-    },
-   categoryListFilter:{
         type: Array,
         require: true,
         default: []
@@ -30,13 +23,14 @@ const confirmAction = (bookingId, bookingName) => {
 }
 
 const filterCategory = ref({})
-console.log(filterCategory.value)
+
 </script>
 
 <template>
     <div class="mt-20">
         <p class="text-4xl font-semibold text-white text-center">List Booking</p>
         <br>
+        <!--filter category-->
         <div class="flex-1 text-neutral pt-3 pl-5 w-64 float-left ml-10">
             <label class="block text-white text-sm font-bold mb-3 w-64 float-left" for="category">Find by category</label>
 
@@ -46,8 +40,8 @@ console.log(filterCategory.value)
                 {{ cat.categoryName }}
                 </option>
             </select>
-            <button @click="$emit('filter',filterCategory.id == 0)" class="my-2 flex-row btn btn-outline btn-error btn-xs drop-shadow-xl"> Reset</button>
-            <button @click="$emit('filter',filterCategory.id)" class="my-2 flex-row btn btn-outline btn-error btn-xs drop-shadow-xl">Search</button>
+            <button @click="$emit('filter',filterCategory.id == 0)" class="my-2 flex-row btn btn-outline btn-warning btn-xs drop-shadow-xl mr-3 mt-5"> Reset</button>
+            <button @click="$emit('filter',filterCategory.id)" class="my-2 flex-row btn btn-outline btn-white btn-xs drop-shadow-xl mt-5">Search</button>
 
         </div>
 

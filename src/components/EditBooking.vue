@@ -24,51 +24,49 @@ const editBooking = computed(() => {return {startTime: String(props.editBook.sta
 <template>
     <div>
     <div
-        class="mt-20 pt-10 ml-auto mr-auto right-0 left-0 top-4 z-50 flex justify-center items-center md:inset-0 drop-shadow-xl">
+        class="mt-20 pt-5 ml-auto mr-auto right-0 left-0 top-4 z-50 flex justify-center items-center md:inset-0 drop-shadow-xl">
         <form class="bg-white rounded-lg px-10 pt-10 pb-8">
-            <img src="/images/edit.png" alt="online schedule" class="max-w-lg float-left m-5 mt-10">
+            <img src="/images/edit.png" alt="online schedule" class="max-w-sm float-left m-5 mt-20">
             <div class="float-right mt-5">
-                <h3 class="text-4xl font-semibold text-base-100 mb-2">Edit Event</h3>
-                <p class="text-sm text-neutral pl-3 mb-7">You can edit booking clinic that you want.</p>
+                <h3 class="text-4xl font-semibold text-base-100 mb-1">Edit Event</h3>
+                <p class="text-sm text-neutral pl-3">You can edit booking clinic that you want.</p>
                 <!-- editBook : {{editBook}} -->
                 <br>
                 <!-- editBooking : {{editBooking}} -->
                 <div class=" flex">
-                    <div class="flex-1 text-neutral pt-3 pl-5">
+                    <div class="flex-1 text-neutral pt-2 pl-5">
                         <p class="block text-base-100 text-sm font-bold mb-3">bookingName :
                             <span>{{ editBook.bookingName }}</span>
                         </p>
                     </div>
                 </div>
-                    <div class="flex-1 text-neutral pt-3 pl-5">
+                    <div class="flex-1 text-neutral pt-2 pl-5">
                         <p class="block text-base-100 text-sm font-bold mb-3">email : 
                             <span>{{ editBook.email }}</span>
                         </p>
                     </div>
                     
-                    <div class="flex-1 text-neutral pt-3 pl-5">
+                    <div class="flex-1 text-neutral pt-2 pl-5">
                         <p class="block text-base-100 text-sm font-bold mb-3">categoryDescription :
-                            <span>{{ editBook.categoryDescription }}</span></p>
+                            <textarea class="w-full mt-2 rounded-lg" disabled="disabled" rows="auto" cols="50">{{ editBook.categoryDescription }}</textarea>
+                        </p>
                     </div>
-                    <div class="flex-1 text-neutral pt-3 pl-5">
+                    <div class="flex-1 text-neutral pt-2 pl-5">
                         <p class="block text-base-100 text-sm font-bold mb-3">categoryDuration :
                             <span>{{ editBook.categoryDuration }}</span></p>
                     </div>
 
-                    <div class="flex-1 text-neutral pt-3 pl-5">
+                    <div class="flex-1 text-neutral pt-2 pl-5">
                         <label class="block text-base-100 text-sm font-bold mb-3" for="password">Event start time</label>
                         <input type="datetime-local" name="startTime" id="startTime" v-model="editBooking.startTime"
                             class="bg-gray-50 border border-gray-300 text-sm rounded-lg  block w-full p-2.5">
                     </div>
                 
-                <div class="text-neutral pt-3 pl-5">
+                <div class="flex-1 text-neutral pt-2 pl-5">
                     <label class="block text-base-100 text-sm font-bold mb-3" for="password">Note</label>
-                    
-                    <!-- <span v-show="editBooking.note != null ? editBooking.note.length >= 500 : false" class="text-warning"> 
-                        You add more than 500 characters </span>  -->
-                    <input type="text" name="note" id="note" v-model="editBooking.note" maxlength="500"
-                        class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5">
-                    <span class="block text-sm border-gray-300">You cannot add more than 500</span>
+                    <span class="block text-xs text-warning">You cannot add more than 500 characters</span>
+                    <textarea class="bg-gray-50 border border-gray-300 w-full rounded-lg mt-2 p-2.5" rows="auto" cols="50" name="note" id="note"
+                     v-model="editBooking.note"></textarea>
                 </div>
 
                 <br>

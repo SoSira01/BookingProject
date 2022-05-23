@@ -3,14 +3,23 @@ import { ref } from 'vue'
 import NewBooking from '../components/NewBooking.vue'
 import router from '../router'
 
-//const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
-const url = '  http://202.44.9.103:8080/ssi5/api'
+const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
+//const url = '  http://202.44.9.103:8080/ssi5/api'
 
 const Categorydetails = ref([])
 
+ function validEmail(email) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return re.test(email)
+    }
 // POST 
 const addBooking = async (newBookingEvent) => {
     console.log(newBookingEvent)
+
+    if(!validEmail(newBookingEvent.email)){
+        alert("Valid email required")
+    }
+
     const res = await fetch(`${url}/booking`,
         {
             method: "POST",
@@ -26,7 +35,7 @@ const addBooking = async (newBookingEvent) => {
     console.log(await res.json())
 
     if (res.status === 200) {
-        //alert('add new booking complete')
+        alert('add new booking complete')
         router.push({ name: 'List' })
     } else {
         alert('Error To Add, Please try again')
