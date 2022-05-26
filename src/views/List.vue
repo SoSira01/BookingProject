@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 import ListBooking from '../components/ListBooking.vue'
 
-//const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
-const url = '  http://202.44.9.103:8080/ssi5/api'
+const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
+// const url = '  http://202.44.9.103:8080/ssi5/api'
 const book = ref([])
 const category =ref([])
 //GET AllBooking
