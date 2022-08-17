@@ -1,7 +1,6 @@
 <script setup>
 import {ref} from "vue"
 defineEmits(['remove', 'details','filter'])
-
  const prop = defineProps({
     listBooking: {
         type: Array,
@@ -14,16 +13,13 @@ defineEmits(['remove', 'details','filter'])
         default: []
     }
  })
-
 const confirmAction = (bookingId, bookingName) => {
     let confirmAction = confirm(`Do you want to delete booking: ${bookingName}`)
     if (confirmAction) {
         return bookingId
     }
 }
-
 const filterCategory = ref({})
-
 </script>
 
 <template>
