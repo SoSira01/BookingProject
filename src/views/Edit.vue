@@ -57,7 +57,6 @@ const getListBookingById = async () => {
 
 onBeforeMount(() => {getListBookingById()})
 
-
 </script>
  
 <template>

@@ -23,30 +23,21 @@ const addUser = async (newUser) => {
             })
         })
 
-   console.log(await res.json())
+//    console.log(await res.json())
+    const test = await res.json()
+    
+     console.log(test)
 
 if (res.status === 200) {
         alert('Add New User complete')
         router.push({ name: 'ListUser'})
     } else {
-        alert('Error To Add :') 
-
-//หาวิธีดึง errorมาจาก be 
-//{
-//     "status": "BAD_REQUEST",
-//     "message": "Validation failed !!!",
-//     "details": [
-//         {
-//             "field": "name",
-//             "errorMessage": "Name Not Unique"
-//         },
-//         {
-//             "field": "email",
-//             "errorMessage": "Must be well-formed as email address"
-//         }
-//     ]
-// }
-
+   var error=""
+        for (let i = 0; i < test.details.length; i++) {
+                console.log(test.details[i].errorMessage)
+                error+=test.details[i].errorMessage +" \n"
+            }
+        alert('Error To Add : ' +"\n" + error)
         console.log("cannot add new user")
     }
 

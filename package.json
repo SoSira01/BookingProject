@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "daisyui": "^2.14.2",
+    "vee-validate": "^4.6.6",
     "vue": "^3.2.25",
-    "vue-router": "^4.0.14"
+    "vue-router": "^4.0.14",
+    "vue-validate": "^1.0.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.1",

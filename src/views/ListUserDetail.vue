@@ -33,32 +33,36 @@ const removeUser = async (deleteId) => {
     console.log("error, cannot delete data")
   }
 }
-//PATCH user
-const editUser = async (editing, e) => {
-  e.preventDefault();
-  console.log(editing)
+// //PATCH user
+// const editUser = async (editing, e) => {
+//   e.preventDefault();
+//   console.log(editing)
 
 
-  const res = await fetch(`${url}/category/${id.value}`, {
-    method: 'PATCH',
-    headers: {
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: usersDetail.name,
-      email: usersDetail.email,
-      role: usersDetail.role
-    })
-  })
-  if (res.status === 200) {
-    router.push({ name: '/ListUser/:userId' })
-  }else  
-    alert('error, cannot be edited')
-    console.log("error, cannot be edited")
-  }
+//   const res = await fetch(`${url}/category/${id.value}`, {
+//     method: 'PATCH',
+//     headers: {
+//       'content-type': 'application/json'
+//     },
+//     body: JSON.stringify({
+//       name: usersDetail.name,
+//       email: usersDetail.email,
+//       role: usersDetail.role
+//     })
+//   })
+//   if (res.status === 200) {
+//     router.push({ name: '/ListUser/:userId' })
+//   }else  
+//     alert('error, cannot be edited')
+//     console.log("error, cannot be edited")
+// }
 
 let convertCreated = (dateCreated) => {
-  let convertTime = new Date(dateCreated).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' });
+  let convertTime = new Date(dateCreated).toLocaleString('en-US', 
+   { dateStyle: 'full', 
+   timeStyle: 'medium', 
+  //  timeZone: 'Asia/Bangkok'
+   });
   return convertTime;
 };
 
@@ -112,11 +116,11 @@ const confirmAction = (id, name) => {
           </div>
         </div>
 </div>
-
+<!-- <div >
   <EditUser 
   :editUser="usersDetail"
   @edit="editUser"/>
-
+</div> -->
 </template>
  
 <style scoped>

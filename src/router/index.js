@@ -1,4 +1,5 @@
 import {createRouter,createWebHistory} from 'vue-router'
+// import { Field,Form } from 'vee-validate'
 import NotFound from '../views/NotFound.vue'
 import Home from '../views/Home.vue'
 import List from '../views/List.vue'
@@ -11,7 +12,8 @@ import EditCategory from '../views/EditCategory.vue'
 import ListUser from '../views/ListUser.vue'
 import ListUserDetail from '../views/ListUserDetail.vue'
 import AddUser from '../views/AddUser.vue'
-import EditUser from '../views/EditUser.vue'
+import EditUser from '../views/EditUserDetail.vue'
+
 const history = createWebHistory('/ssi5/')
 const routes = [
     {
@@ -65,7 +67,7 @@ const routes = [
         component: AddUser
     },
     {
-        path: '/ListUser/EditUser/:userId',
+        path: '/ListUser/:userId/EditUser/:userId',
         name: 'EditUser',
         component: EditUser
     },
@@ -82,4 +84,4 @@ const routes = [
     ]
 
 const router = createRouter({history, routes})
-export default router
+export default router 
