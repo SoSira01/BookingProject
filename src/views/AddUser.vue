@@ -16,19 +16,37 @@ const addUser = async (newUser) => {
             method: "POST",
             headers: { "content-type": "application/json" },
                 body: JSON.stringify({
-                name: newUser.name,
-                email: newUser.email,
+                name: newUser.name.trim(),
+                email: newUser.email.trim(),
                 role: newUser.role,
 
             })
         })
-    console.log(await res.json())
 
-    if (res.status === 200) {
+   console.log(await res.json())
+
+if (res.status === 200) {
         alert('Add New User complete')
-        router.push({ name: 'ListUser' })
+        router.push({ name: 'ListUser'})
     } else {
-        alert('Error To Add, Please try again')
+        alert('Error To Add :') 
+
+//หาวิธีดึง errorมาจาก be 
+//{
+//     "status": "BAD_REQUEST",
+//     "message": "Validation failed !!!",
+//     "details": [
+//         {
+//             "field": "name",
+//             "errorMessage": "Name Not Unique"
+//         },
+//         {
+//             "field": "email",
+//             "errorMessage": "Must be well-formed as email address"
+//         }
+//     ]
+// }
+
         console.log("cannot add new user")
     }
 

@@ -72,11 +72,9 @@ const confirmAction = (id, name) => {
  
 <template>
 <div class="mt-20">
-         <p class="text-4xl font-semibold text-white text-center">User Detail</p>
-        <br>
-              <div class="grid grid-cols-1 w-5/12 ml-auto mr-auto drop-shadow
-              rounded-lg bg-gray-50 text-neutral m-10 p-8 drop-shadow-xl text-left"
-              v-show="usersDetail.length!==0">
+        <p class="text-4xl font-semibold text-white text-center">User Detail</p>
+        <div class="grid grid-cols-1 w-7/12 ml-auto mr-auto drop-shadow ">
+          <div class="rounded-lg bg-gray-50 text-neutral m-10 p-8 drop-shadow-xl text-left" v-show="usersDetail.length!==0">
               <p>
                 <span class="font-bold text-lg m-2 text-base-100">Name :
                 </span>{{ usersDetail.name }}
@@ -90,27 +88,29 @@ const confirmAction = (id, name) => {
                 </span>{{ usersDetail.role }}
               </p>
               <p>
-                <span class="font-bold text-lg m-2 text-base-100">Create :
+                <span class="font-bold text-lg m-2 text-base-100">CreatedOn :
                 </span>{{ convertCreated(usersDetail.createdOn) }}
               </p>
               <p>
-                <span class="font-bold text-lg m-2 text-base-100">Update :
+                <span class="font-bold text-lg m-2 text-base-100">UpdatedOn :
                 </span>{{ convertCreated(usersDetail.updatedOn) }}
               </p>
                       
-              <p class="mt-5 flex-row btn btn-neutral btn-xs drop-shadow-xl mr-3 ml-2 w-20">
-                <router-link :to="'/ListUser'"> Back </router-link></p>
-                <button @click="removeUser(usersDetail.id), confirmAction(usersDetail.id, usersDetail.name)"
-                    class="my-2 flex-row btn btn-outline btn-error btn-xs drop-shadow-xl">DELETE</button>
-                <br>
+             
+                <router-link class="mt-5 btn btn-xs drop-shadow-xl mr-3" :to="'/ListUser'"> Back </router-link>
+        
                 <router-link class="mt-5 flex-row btn btn-base-100 btn-xs drop-shadow-xl mr-3" :to="{
                     name: 'EditUser',
                     params: {
                         usersId: usersDetail.id
                     } }">
                     Edit
-                </router-link>                
-              </div>
+                </router-link>  
+                
+                <button @click="removeUser(usersDetail.id), confirmAction(usersDetail.id, usersDetail.name)"
+                    class="mt-5 flex-row btn btn-outline btn-error btn-xs drop-shadow-xl">DELETE</button>
+          </div>
+        </div>
 </div>
 
   <EditUser 

@@ -20,17 +20,17 @@ const confirmAction = (userId, name) => {
 </script>
 
 <template>
-    <div class="mt-20">
+    <div class="mt-20"> 
         <p class="text-4xl font-semibold text-white text-center">List User</p>
         <br>
-        <p class="text-centermt-5 flex-row btn btn-outline btn-xs drop-shadow-xl mr-3 ml-2 ">
+        <p class="btn btn-warning text-neutral btn-xs btn-outline drop-shadow-xl grid grid-cols-1 w-32 ml-auto mr-auto">
                     <router-link :to="{
                         name: 'NewUser'
                     }"> Add New User                        
                     </router-link>
         </p>
-
-        <div class="grid grid-cols-1 w-7/12 ml-auto mr-auto">
+       
+        <div class="grid grid-cols-1 w-7/12 ml-auto mr-auto mt-5">
             <div v-if="listUser == ''" class="text-center mt-4 ">
                 <span class="text-sm">No Users</span>
                 

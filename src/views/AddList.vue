@@ -18,7 +18,7 @@ const addBooking = async (newBookingEvent) => {
             body: JSON.stringify({
                 bookingName: newBookingEvent.bookingName,
                 startTime: new Date(newBookingEvent.startTime).toISOString(),
-                email: newBookingEvent.email,
+                email: newBookingEvent.email.trim(),
                 note: newBookingEvent.note,
                 categoryId: newBookingEvent.category.id
             })

@@ -27,22 +27,29 @@ var nowtime = today.toISOString().substring(0, 16)
 <template>
     <div>
         <div class="mt-20">
-            <div class="pt-5 ml-auto mr-auto right-0 left-0 top-4 z-50 flex justify-center items-center md:inset-0 drop-shadow-xl">
-                <form class="bg-white rounded-lg px-10 pt-7 pb-8 ">
+            <div class="grid grid-cols-1 w-1/2 ml-auto mr-auto drop-shadow ">
+                <form class="bg-white rounded-lg px-10 pt-7 pb-8">
                     <h3 class="text-4xl font-semibold text-base-100 mb-2">Add User</h3>
 
                     <!--name-->
-                    <div class=" flex">
                         <div class="flex-1 text-neutral pt-3 pl-5">
-                            <label class="block text-base-100 text-sm font-bold mb-1" for="password">Name</label>
+                            <label class="block text-base-100 text-sm font-bold mb-1">Name</label>
                             <!-- <span v-if="NewUser.name && NewUser.name.length > 100" class="text-xs text-error italic"> 
                            * You add more than 100 characters </span> -->
-                            <input type="text" name="name" id="name" v-model="NewUser.name"
-                                class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5"
-                                placeholder="--- Please input New bookingName ---" required>
+                           <span v-if="NewUser.name.length <= 100">
+                                <input type="text" name="name" id="name" v-model="NewUser.name"
+                                    class="bg-gray-50 border border-gray-300  text-sm rounded-lg block w-full p-2.5"
+                                    placeholder="--- Please input new username ---" required>
+                           </span>
+                           <span v-else="NewUser.name.length > 100">
+                                <span class="text-xs text-error italic">* You cannot add more than 100 characters </span>
+                                <input type="text" name="name" id="name" v-model="NewUser.name"
+                                    class="bg-gray-50 border border-red-500  text-sm rounded-lg block w-full p-2.5">
+                           </span>
                                 <span class="text-xs">{{NewUser.name.length}}/100</span>
+
                         </div>
-                    </div>
+                    
 
 
                     <!--email-->
@@ -78,6 +85,7 @@ var nowtime = today.toISOString().substring(0, 16)
                     <button
                         class="pt-3 pl-5 w-full rounded-lg text-sm px-10 py-2.5 text-center mt-5 btn btn-warning drop-shadow-xl"
                         type="button" data-modal-toggle="add-form" @click="$emit('add', NewUser)">
+                        
                         Add
                     </button>
                 </form>
