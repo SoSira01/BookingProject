@@ -20,12 +20,6 @@ const NewUser = ref({name: "" ,email : "",role:"student"})
       return re.test(e)
 }
 
-const isUnique = (value,data) => {
-    if (value === '') return true
-    if (data.name) return !data.name.includes(value)
-        return true
-}
-
 </script>
 
 <template>
