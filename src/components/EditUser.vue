@@ -1,158 +1,113 @@
 <script setup>
-// import { ref,computed,onBeforeMount } from 'vue';
-// // import { useRoute } from 'vue-router';
-// // const url = 'http://intproj21.sit.kmutt.ac.th:8080/ssi5/api';
-
-// // const usersDetail = ref({})
-// defineEmits(["edit"])
-// const props = defineProps({
-//     editUserDetail: {
-//         type: Object,
-//         default: {}
-//     }
-// })
-
-// const edit = computed(() => { return {
-//   name: props.editUserDetail.name,
-//   email: props.editUserDetail.email, 
-//   role: props.editUserDetail.role} })
-
-// let { params } = useRoute()
-//GET user by Id
-// const userId = ref(params.userId)
-// console.log(userId.value)
-// const getListUserById = async () => {
-//   const res = await fetch(`${url}/user/${userId.value}`);
-//   if (res.status === 200) {
-//     usersDetail.value = await res.json()
-//     console.log(usersDetail.value)
-//   } else console.log('error, cannot get listUserById')
-// }
-// onBeforeMount(() => getListUserById());
-
-//PATCH user
-// const editUser = async(newEdit, e) => {
-//   e.preventDefault();
-//   console.log(newEdit);
-//   confirmEditAction();
-//   // console.log(id.value);
-//   const res = await fetch(`${url}/user/${userId.value}`, {
-//       method: 'PATCH',
-//       headers: {
-//         // 'Accept': 'application/json',
-//         // 'Authorization': 'Bearer '+this.token,
-//         'content-type': 'application/json'
-//       },
-//       body: JSON.stringify({
-//         name: usersDetail.value.name.trim(),
-//         email: usersDetail.value.email.trim(),
-//         role: usersDetail.value.role
-//       })
-//     })
-//     if (res.status === 200) {
-//     router.push({ name: 'ListDetail' })
-//     } else {
-//       alert('Error To Edit Please try again')
-//       console.log("error, cannot be edited")
-//     }
-// }
-//     // .then(async response => {
-//     //   const data = await response.json();
-//     //   if (!response.ok || (response.status != 201 && response.status != 200)) {
-//     //     const error = (data && data.message) || response.status;  
-//     //     return alert(error);
-//     //   } else if (response.ok || response.status == 201 || response.status == 200) {
-//     //     console.log("edit complete!!");
-//     //   }
-//     // })
-//     // .catch(error => {
-//     //   this.errorMessage = error;
-//     //   console.error('There was an error!', error);
-//     // });
-//   // if(usersDetail.role !== ""){
-//   //     
-//   //   console.log("be editing...");
-//   //   if (res.ok 
-//   //   || res.status === 201 
-//   //   || res.status === 200
-//   //   ) {
-//   //   alert('Been edited!!');
-//   //   router.push({ name: '/ListUser/:userId' });
-//   //   } else  
-//   //   alert('error, cannot be edited')
-//   //   console.log("error, cannot be edited")
-//   // // } 
-
 import { ref, onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router';
 defineEmits(["EditUser"]);
 
-const userData = ref({})
-// const name = ref("");
-// const email = ref("");
-// const role = ref("");
+const userDataEdit = {};
+const userData = ref({});
 
-const url = 'http://intproj21.sit.kmutt.ac.th:8080/ssi5/api'
+// const url = 'http://intproj21.sit.kmutt.ac.th:8080/ssi5/api'
+const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
+
 let { params } = useRoute()
-console.log(params.userId)
+// console.log(params.userId)
 const id = ref(params.userId)
 
+// GET user for comparison
+const getUser = async () => {
+  const response = await fetch(`${url}/user/${id.value}`)
+  if (response.status === 200) {
+    userDataEdit.value = await response.json()
+    console.log(userDataEdit.value)
+    console.log("can GET user for comparison")
+  } else console.log('error, cannot get user data for comparison')
+}
+
+getUser();
+
+// GET user
 onBeforeMount( async () => {
     const res = await fetch(`${url}/user/${id.value}`);
+    console.log(res.details)
+    console.log(res.data)
+    console.log(userDataEdit.value)
     if (res.status === 200) {
     userData.value = await res.json();
-    console.log("Complete!");
-    }
-    else 
+    console.log("Completely GET!");
+    } else {
     console.log("no detail");
+    }
 });
 
+
+// Edit user (PATCH)
 function editUser() {
+
+  // case : name & email are null 
+  if( userData.value.name == "" || userData.value.email == "" ) {
+    // alert(`Name and Email are Null!! : ${userDataEdit.value.name}, ${userData.value.name}`);
+    alert(`Name and Email are Null!! : ${userDataEdit.value}, ${userData.value}`);
+  } 
+
+  // case : have nothing to update
+  if (userData.value.name == userDataEdit.value.name && 
+      userData.value.email == userDataEdit.value.email &&
+      userData.value.role == userDataEdit.value.role) {
+        alert('Have not new edited')
+  } 
   
-  if( userData.name == "" && userData.email == "" ) {
-    alert('Name and Email are Null!!');
-  } else {
-  const requestOptions = {
-    method: 'PATCH',
-    headers: { 
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-        "name": userData.value.name.trim(),
-        "email": userData.value.email.trim(),
-        "role": userData.value.role,
-    })
-  };
-  return fetch(`${url}/user/${id.value}`, requestOptions)
-    .then(async response => {
-      const data = await response.json();
-      console.log(data);
-      console.log(data.details)
+  // case : to change one or more values
+  else {
+    confirmEditAction();
+    const dataBody = {}
+    // alert("bef-dataBody.value : "+dataBody);
+
+    // check name
+    if(userData.value.name != userDataEdit.value.name) {
+      dataBody["name"] = userData.value.name.trim();
+      // alert("dataBody.value.name : "+dataBody.value);
+    }
+    // check email
+    if(userData.value.email != userDataEdit.value.email) {
+      dataBody["email"] = userData.value.email.trim();
+      // alert("dataBody.value.email : "+dataBody.value);
+    }
+    // check role
+    if(userData.value.role != userDataEdit.value.role) {
+      dataBody["role"] = userData.value.role;
+      // alert("dataBody.value.role : "+dataBody.value);
+    }
+
+    const requestOptions = {
+            method: 'PATCH',
+            headers: { 
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataBody)
+        };
+    
+    return fetch(`${url}/user/${id.value}`, requestOptions)
+      .then(async response => {
+        const data = await response.json();
+        console.log(data);
+        console.log(data.details);
+        console.log("Before show error")
+      })
+      .finally(async error => {
+        const data = await error.json();
         var er=""
-        for (let i = 0; i < data.details.length; i++) {
-                console.log(data.details[i].errorMessage)
-                er += data.details[i].errorMessage +" \n"
-            }
+        for (let i = 0; i < data.details.length; i++) 
+          {
+            console.log(data.details[i].errorMessage)
+            er += data.details[i].errorMessage +" \n"
+          }
         alert('Error To Edit : ' +"\n" + er)
-      
-      if (!response.ok) {
-        const error = (data && data.message) || response.status;  
-        return Promise.reject(error);
-      } else if (response.ok || response.status == 201 || response.status == 200) {
-        console.log("edit complete!!");
-        alert('Edited!');
-      }else{
-        
-      }
-    })
-    // .catch(error => {
-    //   this.errorMessage = error;
-    //   console.error('There was an error!', error);
-    // }
-   // );
+      })
   }
-}
+
+  // return router.push({ name: 'ListUser'})
+}  
 
 const confirmEditAction = () => {
     let confirmEditAction = confirm(`Do you want to edit this user detail ?`)
@@ -167,7 +122,8 @@ let convertCreated = (dateCreated) => {
     timeStyle: 'medium',
      });
   return convertTime;
-};
+}
+
 </script>
 
 
@@ -230,5 +186,5 @@ let convertCreated = (dateCreated) => {
      
         </form>
     </div>
-
+    
 </template>
