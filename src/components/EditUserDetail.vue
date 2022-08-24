@@ -1,5 +1,5 @@
 <script setup>
-import EditUser from '../components/EditUser.vue';
+import EditUser from '../views/EditUser.vue';
 
 </script>
 

@@ -9,12 +9,15 @@
   },
   "dependencies": {
     "daisyui": "^2.14.2",
+    "jwt-decode": "^3.1.2",
+    "sweetalert2": "^11.4.29",
     "vee-validate": "^4.6.6",
     "vue": "^3.2.25",
     "vue-router": "^4.0.14",
     "vue-validate": "^1.0.1"
   },
   "devDependencies": {
+    "@import-meta-env/unplugin": "^0.1.8",
     "@vitejs/plugin-vue": "^2.3.1",
     "autoprefixer": "^10.4.5",
     "postcss": "^8.4.12",

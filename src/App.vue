@@ -1,5 +1,6 @@
 <script setup>
-
+import { logout } from '../authen/authen_service.js' 
+let localUser = localStorage.currentUser
 </script>
  
 <template>
@@ -9,6 +10,11 @@
       <div class="flex-1">
         <p class="text-primary normal-case pl-5 font-bold text-2xl">
           <router-link :to="{ name: 'Home' }">- CLINIC | <span class="text-white">booking -</span></router-link>
+          <span class="text-zinc-500 pl-7 text-base pr-3" v-if="localUser">
+            {{ localUser }} 
+            <button @click="logout()"
+              class="btn btn-outline btn-error btn-xs drop-shadow-xl">Log Out</button>
+        </span>
         </p>
       </div>
       <div class="flex-none">
@@ -27,6 +33,12 @@
           </li>
           <li>
             <router-link :to="{ name: 'ListUser' }">User</router-link>
+          </li>
+          <li>
+            <router-link :to="{ name: 'MatchUserPassword' }">Match Password</router-link>
+          </li>
+          <li>
+            <router-link :to="{ name: 'Login' }">Login</router-link>
           </li>
           <li>
             <router-link :to="{ name: 'AboutUs' }">AboutUs</router-link>

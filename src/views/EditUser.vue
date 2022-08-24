@@ -1,24 +1,48 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router';
+// import authHeader from '../../authen/authen_service';
+import jwt_decode from 'jwt-decode';
 defineEmits(["EditUser"]);
 
 const userDataEdit = {};
 const userData = ref({});
 
+const url = `${import.meta.env.VITE_APP_BASE_URL}`
+// const url = 'http://202.44.9.103:8080/ssi5/api'
 // const url = 'http://intproj21.sit.kmutt.ac.th:8080/ssi5/api'
-const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
+// const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
+// const url = 'http://localhost:8080/api'
 
 let { params } = useRoute()
 // console.log(params.userId)
 const id = ref(params.userId)
+const idUser = params.userId
+
+//Get currentUserToken from Localstorage
+const getCurrentUserToken = () => {
+  if(localStorage.currentUser && localStorage.currentUserToken) {
+    let token = jwt_decode(localStorage.currentUserToken)
+    if(token.exp*1000 < Date.now()) {
+        return `Bearer ${localStorage.currentUserRefreshToken}`
+    }
+    return `Bearer ${localStorage.currentUserToken}`
+  }
+  if(localStorage.currentUser && localStorage.userRefreshToken) {
+    return `Bearer ${localStorage.userRefreshToken}`
+  }
+}
 
 // GET user for comparison
 const getUser = async () => {
-  const response = await fetch(`${url}/user/${id.value}`)
+  const response = await fetch(`${url}/users/${id.value}`, { 
+    method: "GET",
+    headers: { Authorization : getCurrentUserToken()} 
+  })
   if (response.status === 200) {
     userDataEdit.value = await response.json()
-    console.log(userDataEdit.value)
+    // console.log(userDataEdit.value)
+    // alert(userDataEdit.value)
     console.log("can GET user for comparison")
   } else console.log('error, cannot get user data for comparison')
 }
@@ -27,13 +51,19 @@ getUser();
 
 // GET user
 onBeforeMount( async () => {
-    const res = await fetch(`${url}/user/${id.value}`);
-    console.log(res.details)
-    console.log(res.data)
-    console.log(userDataEdit.value)
+    const res = await fetch(`${url}/users/${id.value}`, 
+    { 
+      method: "GET", 
+      headers: { Authorization : getCurrentUserToken()} 
+    });
+    // console.log(res.details)
+    // console.log(res.data)
+    // console.log(userDataEdit.value)
     if (res.status === 200) {
     userData.value = await res.json();
     console.log("Completely GET!");
+    // alert(userData.value)
+    // console.log(userData.value)
     } else {
     console.log("no detail");
     }
@@ -50,52 +80,55 @@ function editUser() {
   } 
 
   // case : have nothing to update
-  if (userData.value.name == userDataEdit.value.name && 
-      userData.value.email == userDataEdit.value.email &&
+  if (userData.value.name.trim() == userDataEdit.value.name && 
+      userData.value.email.trim() == userDataEdit.value.email &&
       userData.value.role == userDataEdit.value.role) {
-        alert('Have not new edited')
+        alert('Not have new edited')
   } 
   
   // case : to change one or more values
   else {
     confirmEditAction();
-    const dataBody = {}
+    let dataBody = {}
     // alert("bef-dataBody.value : "+dataBody);
+    // console.log("bef-dataBody.value : "+dataBody);
 
     // check name
-    if(userData.value.name != userDataEdit.value.name) {
-      dataBody["name"] = userData.value.name.trim();
-      // alert("dataBody.value.name : "+dataBody.value);
+    if(userData.value.name.trim() != userDataEdit.value.name.trim()) {
+      dataBody.name = userData.value.name.trim();
+      // alert("dataBody.value.name : "+dataBody.name);
+      // console.log("dataBody.value.name : "+dataBody.value);
     }
     // check email
-    if(userData.value.email != userDataEdit.value.email) {
-      dataBody["email"] = userData.value.email.trim();
-      // alert("dataBody.value.email : "+dataBody.value);
+    if(userData.value.email.trim() != userDataEdit.value.email.trim()) {
+      dataBody.email = userData.value.email.trim();
+      // alert("dataBody.value.email : "+dataBody.email);
+      // console.log("dataBody.value.email : "+dataBody.value);
     }
     // check role
     if(userData.value.role != userDataEdit.value.role) {
-      dataBody["role"] = userData.value.role;
-      // alert("dataBody.value.role : "+dataBody.value);
+      dataBody.role = userData.value.role;
+      // alert("dataBody.value.role : "+dataBody.role);
+      // console.log("dataBody.value.role : "+dataBody.value);
     }
 
-    const requestOptions = {
+    let requestOptions = {
             method: 'PATCH',
             headers: { 
-                'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                Authorization: getCurrentUserToken()
             },
             body: JSON.stringify(dataBody)
         };
     
-    return fetch(`${url}/user/${id.value}`, requestOptions)
+    return fetch(`${url}/users/${idUser}`, requestOptions)
       .then(async response => {
-        const data = await response.json();
-        console.log(data);
-        console.log(data.details);
-        console.log("Before show error")
+        const data = await response.json()
+        console.log(data)
+        console.log(data.details)
       })
       .finally(async error => {
-        const data = await error.json();
+        const data = await error.json()
         var er=""
         for (let i = 0; i < data.details.length; i++) 
           {
@@ -117,10 +150,7 @@ const confirmEditAction = () => {
 }
 
 let convertCreated = (dateCreated) => {
-  let convertTime = new Date(dateCreated).toLocaleString('en-US', { 
-    dateStyle: 'full', 
-    timeStyle: 'medium',
-     });
+  let convertTime = new Date(dateCreated).toLocaleString('en-US',{ dateStyle: 'full', timeStyle: 'medium' });
   return convertTime;
 }
 
@@ -128,7 +158,7 @@ let convertCreated = (dateCreated) => {
 
 
 <template>
-<div class="mt-20 pt-1 ml-auto mr-auto right-0 left-0 top-4 z-50 flex justify-center items-center md:inset-0 drop-shadow-xl">
+<div class="mt-20 w-1/2 pt-1 ml-auto mr-auto items-center drop-shadow-xl">
         <form class="bg-white rounded-lg px-10 pt-10 pb-8">
           
                 <h3 class="text-4xl font-semibold text-base-100 mb-1">Edit User</h3>  
@@ -166,14 +196,15 @@ let convertCreated = (dateCreated) => {
                   <!-- createdOn -->
                     <div class="flex-1 text-neutral pt-2 pl-5">
                         <p class="block text-base-100 text-sm font-bold mb-3">CreatedOn :
-                            <textarea class="w-full mt-2 rounded-lg indent-6" disabled="disabled" rows="3" cols="50">
-                              {{ convertCreated(userData.createdOn) }}</textarea>
+                            <textarea class="w-full mt-2 rounded-lg" disabled="disabled" rows="3" cols="50">
+                            {{ convertCreated(userData.createdOn) }}
+                              </textarea>
                         </p>
                     </div>
                   <!-- updatedOn -->
                     <div class="flex-1 text-neutral pt-2 pl-5">
                         <p class="block text-base-100 text-sm font-bold mb-3">UpdatedOn :
-                            <textarea class="w-full mt-2 rounded-lg indent-6" disabled="disabled" rows="3" cols="50">
+                            <textarea class="w-full mt-2 rounded-lg" disabled="disabled" rows="3" cols="50">
                               {{ convertCreated(userData.updatedOn) }}</textarea>
                         </p>
                     </div>

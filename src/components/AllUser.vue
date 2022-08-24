@@ -1,5 +1,4 @@
 <script setup>
-import {ref} from "vue"
 defineEmits(['remove'])
 
  const prop = defineProps({
@@ -10,11 +9,8 @@ defineEmits(['remove'])
     },
  })
 
-const confirmAction = (userId, name) => {
-    let confirmAction = confirm(`Do you want to delete name: ${name}`)
-    if (confirmAction) {
-        return userId
-    }
+const confirmAction = (userId) => {
+    return userId
 }
 
 </script>
@@ -53,7 +49,7 @@ const confirmAction = (userId, name) => {
                         Details
                     </router-link>
                 </p>
-                <button @click="$emit('remove', confirmAction(user.id, user.name))"
+                <button @click="$emit('remove',confirmAction(user.id), $event)"
                     class="my-2 flex-row btn btn-outline btn-error btn-xs drop-shadow-xl">DELETE</button>
                 <br>
             </div>

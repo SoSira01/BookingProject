@@ -1,77 +1,115 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import { ref } from 'vue'
+import { ref, onBeforeMount} from 'vue'
 import router from "../router";
-import EditUser from '../components/EditUser.vue';
-const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
+import Swal from 'sweetalert2';
+import jwt_decode from 'jwt-decode';
+// import authHeader from '../../authen/authen_service';
+// const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
 // const url = 'http://intproj21.sit.kmutt.ac.th:8080/ssi5/api'
+// const url = 'http://localhost:8080/api'
 // const url = 'http://202.44.9.103:8080/ssi5/api'
+const url = `${import.meta.env.VITE_APP_BASE_URL}`
 
 const usersDetail = ref({})
 let { params } = useRoute()
-//GET user by Id
 const userId = ref(params.userId)
 console.log(userId.value)
-const getListUserById = async () => {
-  const res = await fetch(`${url}/user/${userId.value}`);
+
+//Get currentUserToken from Localstorage
+const getCurrentUserToken = () => {
+  if(localStorage.currentUser && localStorage.currentUserToken) {
+    let token = jwt_decode(localStorage.currentUserToken)
+    if(token.exp*1000 < Date.now()) {
+        return `Bearer ${localStorage.currentUserRefreshToken}`
+    }
+    return `Bearer ${localStorage.currentUserToken}`
+  }
+  if(localStorage.currentUser && localStorage.userRefreshToken) {
+    return `Bearer ${localStorage.userRefreshToken}`
+  }
+}
+
+//GET user by Id
+onBeforeMount( async () => {
+  const res = await fetch(`${url}/users/${userId.value}`, 
+    {
+      method: "GET",
+      headers: { Authorization:  getCurrentUserToken() }
+    } )
+    
   if (res.status === 200) {
     usersDetail.value = await res.json()
     console.log(usersDetail.value)
-  } else console.log('error, cannot get listUserById')
-}
-getListUserById();
+  } else console.log('error, cannot get user list')
+})
 
 //DELETE User
-const removeUser = async (deleteId) => {
-  const res = await fetch(`${url}/user/${deleteId}`, {
-    method: 'DELETE'
-  })
-  if (res.status === 200) {
-    router.push({name: 'ListUser'})
-    console.log("deleted success")
-  } else {
-    console.log("error, cannot delete data")
-  }
+const confirmAction = (id, name) => {
+  return id
 }
-// //PATCH user
-// const editUser = async (editing, e) => {
-//   e.preventDefault();
-//   console.log(editing)
 
+const removeUser = async (uid) => {
+  let uName = usersDetail.value.name
 
-//   const res = await fetch(`${url}/category/${id.value}`, {
-//     method: 'PATCH',
-//     headers: {
-//       'content-type': 'application/json'
-//     },
-//     body: JSON.stringify({
-//       name: usersDetail.name,
-//       email: usersDetail.email,
-//       role: usersDetail.role
-//     })
-//   })
-//   if (res.status === 200) {
-//     router.push({ name: '/ListUser/:userId' })
-//   }else  
-//     alert('error, cannot be edited')
-//     console.log("error, cannot be edited")
-// }
+  const swalDelete = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    })
+  
+  swalDelete.fire({
+    title: `Are you delete user name: `+uName,
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, cancel!',
+    reverseButtons: true
+    }).then( async (result) => {
+    if (result.isConfirmed) {
+        const response = await fetch(`${url}/users/${uid}`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: getCurrentUserToken()
+          }
+        })
+
+        if(response.status === 200 || response.ok ) {
+          console.log(response.status)
+          console.log("deleted success")
+          swalDelete.fire(
+            'Deleted!',
+            `User name: ${uName} has been delete`,
+            'success'
+          )
+        router.push({name: 'ListUser'})
+
+        } else {
+          console.log("error, cannot delete data")
+        }
+
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        swalDelete.fire(
+          'Cancelled',
+          'Your User data is safe :)',
+          'error'
+        )
+      }
+    })
+}
 
 let convertCreated = (dateCreated) => {
-  let convertTime = new Date(dateCreated).toLocaleString('en-US', 
-   { dateStyle: 'full', 
-   timeStyle: 'medium', 
-  //  timeZone: 'Asia/Bangkok'
+  let convertTime = new Date(dateCreated).toLocaleString('en-US', { 
+    dateStyle: 'full', 
+    timeStyle: 'medium'
    });
   return convertTime;
 };
 
-const confirmAction = (id, name) => {
-    let confirmAction = confirm(`Do you want to delete name: ${name}`)
-    if (confirmAction) {
-        return id
-    }
-}
+
 </script>
  
 <template>
@@ -111,7 +149,7 @@ const confirmAction = (id, name) => {
                     Edit
                 </router-link>  
                 
-                <button @click="removeUser(usersDetail.id), confirmAction(usersDetail.id, usersDetail.name)"
+                <button @click="removeUser(usersDetail.id)"
                     class="mt-5 flex-row btn btn-outline btn-error btn-xs drop-shadow-xl">DELETE</button>
           </div>
         </div>
