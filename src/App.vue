@@ -8,17 +8,17 @@ let localUser = localStorage.currentUser
   <div>
     <div class="navbar p-2 mt-0 fixed w-full z-10 top-0 bg-base-100">
       <div class="flex-1">
-        <p class="text-primary normal-case pl-5 font-bold text-2xl">
+        <p class="text-primary normal-case pl-1 font-bold text-2xl">
           <router-link :to="{ name: 'Home' }">- CLINIC | <span class="text-white">booking -</span></router-link>
-          <span class="text-zinc-500 pl-7 text-base pr-3" v-if="localUser">
+          <span class="text-zinc-500 pl-7 text-sm pr-2" v-if="localUser">
             {{ localUser }} 
             <button @click="logout()"
-              class="btn btn-outline btn-error btn-xs drop-shadow-xl">Log Out</button>
+              class="btn btn-outline btn-error rounded-full btn-xs text-xs ml-2">Log Out</button>
         </span>
         </p>
       </div>
       <div class="flex-none">
-        <ul class="menu menu-horizontal p-0 mr-8 text-lg text-white space-x-3">
+        <ul class="menu menu-horizontal p-0 mr-1 text-lg text-white">
           <li>
             <router-link :to="{ name: 'Home' }">Home</router-link>
           </li>

@@ -14,19 +14,62 @@ const url = `${import.meta.env.VITE_APP_BASE_URL}`
 const Categorydetails = ref([])
 let status = ref("")
 
+let files = ref([])
+let form = new FormData()
+
+const removeFile = (event) => {
+    let listFileElem = document.querySelector("#boxlistfile")
+    let listFileBtn = document.querySelector("#boxlistfilebtn")
+    let nolistFileElem = document.querySelector("#noboxlistfile")
+    listFileElem.style.visibility = "hidden"
+    listFileBtn.style.visibility = "hidden"
+    nolistFileElem.removeAttribute("hidden")
+    event.preventDefault()
+}
+
+const handleFileUpload = (event) => {
+    event.preventDefault()
+    console.log(event.target.files) // print : show files
+    if(event.target.files[0] && event.target.files[0].size <= 10*1024*1024) {
+        files[0] = event.target.files[0]
+        let listFileElem = document.querySelector("#boxlistfile")
+        let listFileBtn = document.querySelector("#boxlistfilebtn")
+        let nolistFileElem = document.querySelector("#noboxlistfile")
+
+        nolistFileElem.setAttribute("hidden",true)
+
+        let listFile = document.createAttribute('p')
+        listFile.value = event.target.files[0].name
+
+        listFileElem.style.visibility = "visible"
+        listFileElem.innerHTML = listFile.value
+
+        listFileBtn.style.visibility = "visible"
+        listFileBtn.addEventListener('click',removeFile)
+        console.log(files[0])
+    } 
+    if(event.target.files[0] && event.target.files[0].size > 10*1024*1024) {
+        alert(`The file size cannot be larger than 10 MB.\n Can not attach ${event.target.files[0].name}`)
+    } else {
+        console.log("Not have any file attachment")
+    }
+
+    console.log("finish process :: attach files") // print : to confirm finish working 
+}
+
 //Get currentUserToken from Localstorage
 const getCurrentUserToken = () => {
   let headerObject = {}
-//   `${headerObject.content-type}` = "application/json"
-  headerObject["content-type"] = "application/json"
+ //  headerObject["Content-Type"] = `multipart/form-data; boundary=${form._boundary}`
+ //  headerObject["Accept"] = "application/json"
+ //  headerObject["Content-Type"] = `application/json`
+ //  headerObject["Content-Type"] = "multipart/form-data;"
   if(localStorage.currentUser && localStorage.currentUserToken) {
     let token = jwt_decode(localStorage.currentUserToken)
     if(token.exp*1000 < Date.now()) {
-        // `${headerObject.Authorization} : Bearer ${localStorage.currentUserRefreshToken}`
-        headerObject.Authorization = `Bearer ${localStorage.currentUserRefreshToken}`
+        headerObject["Authorization"] = `Bearer ${localStorage.currentUserRefreshToken}`
     } else {
-        // `${headerObject.Authorization} : Bearer ${localStorage.currentUserToken}`
-        headerObject.Authorization = `Bearer ${localStorage.currentUserToken}`
+        headerObject["Authorization"] = `Bearer ${localStorage.currentUserToken}`
     }
     return headerObject
   }
@@ -36,18 +79,36 @@ const getCurrentUserToken = () => {
 }
 
 // POST 
+
 const addBooking = async (newBookingEvent) => {
+    const json = JSON.stringify({
+            bookingName: newBookingEvent.bookingName,
+            startTime: new Date(newBookingEvent.startTime).toISOString(),
+            email: newBookingEvent.email.trim(),
+            note: newBookingEvent.note,
+            categoryId: newBookingEvent.category.id
+        });
+
+    const blob = new Blob([json], {
+        type: 'application/json'
+    });
+
+    form.append("booking",blob)
+
+    let listFileElem = document.querySelector("#boxlistfile")
+    if(listFileElem.style.visibility == "visible") {
+        form.append("file",files[0])
+    }
+
+    for (const value of form.values()) {
+        console.log(value)
+    }
+
     const res = await fetch(`${url}/booking`,
         {
             method: "POST",
             headers: getCurrentUserToken() ,
-            body: JSON.stringify({
-                bookingName: newBookingEvent.bookingName,
-                startTime: new Date(newBookingEvent.startTime).toISOString(),
-                email: newBookingEvent.email.trim(),
-                note: newBookingEvent.note,
-                categoryId: newBookingEvent.category.id
-            })
+            body: form
         })
     console.log(await res.json())
     Swal.showLoading()
@@ -87,7 +148,7 @@ const addBooking = async (newBookingEvent) => {
                 showConfirmButton: false
             })
         }
-        
+
     } else {
         alert('Error To Add Your Booking, Please try again')
     }
@@ -107,7 +168,8 @@ getListCategory();
  
 <template>
     <div>
-        <NewBooking :categoryDetails="Categorydetails" @AddList="addBooking" />
+        <NewBooking :categoryDetails="Categorydetails" 
+        @AddList="addBooking" @Upload="handleFileUpload"/>
     </div>
 </template>
  

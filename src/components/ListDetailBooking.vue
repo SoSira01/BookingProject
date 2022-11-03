@@ -1,6 +1,6 @@
 <script setup>
 
-defineEmits(['remove', 'back', 'edit'])
+defineEmits(['remove','link','back','edit','view'])
 
 const props = defineProps({
     listDetailBooking: {
@@ -8,6 +8,11 @@ const props = defineProps({
         require: true
     }
 })
+
+const linkFile = (fileName) => {
+    // window.location.href = `${import.meta.env.VITE_APP_BASE_URL}`+"/booking/files/"
+    return fileName
+}
 
 const confirmAction = (bookingId, bookingName) => {
     let confirmAction = confirm(`Do you want to delete booking: ${bookingName}`)
@@ -18,6 +23,16 @@ const confirmAction = (bookingId, bookingName) => {
 
 if(props.listDetailBooking.id == null){
     props.listDetailBooking.id = 0
+}
+
+const checkFile = (name) => {
+    let filename = new String(name)
+    if(filename.endsWith(".pdf") || filename.endsWith(".png")
+        || filename.endsWith(".jpeg") || filename.endsWith(".jpg")) {
+            return true
+    }else{
+        return false
+    }
 }
 
 </script>
@@ -43,6 +58,18 @@ if(props.listDetailBooking.id == null){
                     <p class="font-bold text-lg text-base-100">Note : </p>
                     <textarea class="w-full ml-3 rounded-lg" disabled="disabled" rows="5" cols="50">{{ listDetailBooking.note }}</textarea></p>
                 <p v-else><span class="font-bold text-lg text-base-100">Note : </span>No note</p>
+
+                
+                <p v-if="listDetailBooking.fileName != null">
+                    <span class="font-bold text-lg text-base-100">Attachment :</span>
+                    {{ listDetailBooking.fileName }}
+                    <p class="mt-3 flex-row btn btn-primary btn-base-100 btn-xs drop-shadow-xl mr-2 ml-1"
+                    @click="$emit('link', linkFile(listDetailBooking.fileName))">Download File</p>
+                    <p class="mt-3 flex-row btn btn-warning btn-base-100 btn-xs drop-shadow-xl mr-2 ml-1"
+                    @click="$emit('view', linkFile(listDetailBooking.fileName))" 
+                    v-show="checkFile(listDetailBooking.fileName)">View File</p>
+                </p>
+                
                 <router-link class="mt-5 btn btn-xs drop-shadow-xl mr-3" :to="{ name: 'List' }">BACK</router-link>
                 <router-link class="mt-5 flex-row btn btn-base-100 btn-xs drop-shadow-xl mr-3" :to="{
                     name: 'Edit',

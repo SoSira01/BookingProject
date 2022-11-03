@@ -53,10 +53,53 @@ const removeEvent = async (deleteId) => {
     console.log("error, cannot delete data")
   }
 }
+
+//Loading File
+const loadEventFile = async (name) => {
+  const res = await fetch(`${url}/files/${bookdetails.value.id}/${name}`, {
+    method: 'GET',
+    responseType: 'blob',
+    headers: {"Authorization": getCurrentUserToken()}
+  })
+
+  if (res.status === 200) {
+    var fileElem = document.createElement('a')
+    fileElem.href = `${url}/files/${bookdetails.value.id}/${name}`
+    fileElem.download = name
+    document.body.appendChild(fileElem)
+
+    fileElem.click()
+    alert("Complete!")
+    // router.push({ name: 'List' })
+    // console.log("deleted success")
+  } else {
+    alert("Incomplete!")
+    // console.log("error, cannot delete data")
+  }
+}
+
+//Viewing File
+const viewEventFile = async (name) => {
+  const res = await fetch(`${url}/files/view/${bookdetails.value.id}/${name}`, {
+    method: 'GET',
+    responseType: 'blob',
+    headers: {"Authorization": getCurrentUserToken()}
+  })
+
+  if (res.status === 200) {
+    // alert("Complete!")
+    window.open(`${url}/files/view/${bookdetails.value.id}/${name}`)
+  } else {
+    alert("Incomplete!")
+    // console.log("error, cannot delete data")
+  }
+}
+
 </script>
  
 <template>
-  <ListDetailBooking :listDetailBooking="bookdetails" @remove="removeEvent" @edit="" />
+  <ListDetailBooking :listDetailBooking="bookdetails" 
+  @remove="removeEvent" @link="loadEventFile" @view="viewEventFile"/>
 </template>
  
 <style scoped>

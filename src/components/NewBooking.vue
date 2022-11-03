@@ -1,8 +1,8 @@
 <script setup>
 
-import { computed, ref} from 'vue'
+import { ref} from 'vue'
 
-defineEmits(['AddList'])
+defineEmits(['AddList','Upload'])
 
 const props = defineProps({
     categoryDetails: {
@@ -102,6 +102,22 @@ var nowtime = today.toISOString().substring(0, 16)
                         <span class="text-xs">{{newBooking.note.length}}/500</span>
 
                     </div>
+
+                    <!--file-->
+                    <label for="file" class="block text-base-100 text-sm font-bold mb-1 mt-3 pb-2.5">Select a file:</label>
+                    <input ref="file" type="file" id="file" name="file"
+                    class="text-sm text-neutral pl-3 mb-4"
+                    v-on:change="$emit('Upload', $event)" />
+                    
+                    <!-- No File Attachment -->
+                    <div id="noboxlistfile">
+                        <p class="block text-base-100 text-sm"> No File Attachment </p>
+                    </div>
+                    <!-- Have File Attachment -->
+                    <div id="boxlistfile" class="block text-base-100 text-sm" style="visibility: hidden;"></div>
+                    <button id="boxlistfilebtn" class="btn btn-xs drop-shadow-xl mb-5" 
+                        style="visibility: hidden;"> Remove </button>
+                    <br>
 
                     <button
                         class="pt-3 pl-5 w-full rounded-lg text-sm px-10 py-2.5 text-center mt-5 btn btn-warning drop-shadow-xl"
