@@ -12,6 +12,8 @@ const url = `${import.meta.env.VITE_APP_BASE_URL}`
 
 //EDIT
 const editdetails = ref({});
+let files = ref([])
+let formEdit = new FormData()
 
 let { params } = useRoute()
 console.log(params.BookingIdEdit)
@@ -36,40 +38,60 @@ const getCurrentUserToken = () => {
 const editBooking = async (newedit, e) => {
   e.preventDefault();  //prevent to refresh page
 
-  //   if (editing.duration > 481 || editing.duration < 1){
-  //   alert("you can add number only between 1 - 480")
-  //   return
-  // }
+  // check file
+  let listFileElem = document.querySelector("#listfile")
+  if(listFileElem.getAttribute("name") == "edit"
+  && (listFileElem.innerHTML != "" || editdetails.value.fileName == null)
+  ) {
+      if(files[0] == undefined) { files[0] = null }
+      formEdit.append("file",files[0])
+      // alert(`File FormData Status: ${formEdit.get("file") != null}`)
+  }
 
   let dataBody = {}
 
-  // check name
-  if(newedit.startTime != null) {
+  // check start-time
+  if(newedit != undefined && newedit.startTime != null) {
     dataBody.startTime = new Date(newedit.startTime).toISOString();
-    alert("start time : "+dataBody.startTime);
-  }
-  // check email
-  if(newedit.note != null) {
+    // alert("start time : "+dataBody.startTime);
+  } else {console.log(newedit+" :: start-time : null / undefined")}
+  // check note
+  if(newedit != undefined && newedit.note != null && newedit.note != "") {
     dataBody.note = newedit.note;
-    alert("note : "+dataBody.note);
-  }
+    // alert("note : "+dataBody.note);
+  } else {console.log(newedit+" :: note : null / undefined")}
+
+  const blob = new Blob([JSON.stringify(dataBody)], {
+        type: 'application/json'
+  });
+
+  formEdit.append("booking",blob)
 
   let requestOptions = {
           method: 'PATCH',
-          headers: { 
-              'Content-Type': 'application/json',
-              Authorization: getCurrentUserToken()
-          },
-          body: JSON.stringify(dataBody)
+          headers: { Authorization: getCurrentUserToken() },
+          body: formEdit
       };
 
-  console.log(newedit)
-  const res = await fetch(`${url}/booking/${id.value}`, requestOptions )
-  if (res.status === 200) {
-    router.push({ name: 'ListDetail' })
-  } else {
-    alert('Error To Edit Please try again')
-    console.log("error, cannot be edited")
+  if(dataBody.startTime != undefined 
+    || (newedit.note != undefined && newedit.note != "") 
+    || ( formEdit.get("file") != null )) {
+
+    const res = await fetch(`${url}/booking/${id.value}`, requestOptions )
+      if (res.status === 200) {
+        alert('Edit completely!!')
+        router.push({ name: 'ListDetail',params: {BookingId: editdetails.value.id } })
+      } else {
+        let response = await res.json()
+        alert('Error To Edit Please try again \n'+response.message)
+        console.log("error, cannot be edited")
+      }
+
+    console.log(formEdit.get("file"))
+    return console.log("Condition to Edit :: true")
+
+  }else{
+    return console.log("Condition to Edit :: false")
   }
 
 }
@@ -86,10 +108,52 @@ const getListBookingById = async () => {
 
 onBeforeMount(() => {getListBookingById()})
 
+//Update File Attachment
+const handleFileUpload = (event) => {
+    event.preventDefault()
+    console.log(event.target.files) // print : show files
+    if(event.target.files[0] && event.target.files[0].size <= 10*1024*1024) {
+        files[0] = event.target.files[0]
+
+        // for list new file to edit
+        let listFileElem = document.querySelector("#listfile") 
+        let listFile = document.createAttribute('p')
+        listFile.value = event.target.files[0].name
+        listFileElem.style.display = "block"
+        listFileElem.innerHTML = listFile.value
+        
+        document.querySelector("#fileAttach").style.display = "none" // hidden previous's file in OASIP
+        document.querySelector("#nolistfile").style.display = "none" // hidden message "No Any New Attachment"
+        document.querySelector("#showNewFile").style.display = "block" // show part of listing file attachment
+        document.querySelector("#listfilebtn").style.display = "block" // show button to remove file later
+
+        console.log("add selected file in attachment list")
+        console.log(files[0])
+    } 
+    if(event.target.files[0] && event.target.files[0].size > 10*1024*1024) {
+        alert(`The file size cannot be larger than 10 MB.\n Can not attach ${event.target.files[0].name}`)
+    } 
+
+    console.log("finish process :: attach file") // print : to confirm finish working 
+}
+
+//Reset Attachment
+const resetFile = (e) => {
+  // alert("1: "+editdetails.value.fileName)
+  editdetails.value.fileName = null
+  // alert("2: "+editdetails.value.fileName)
+  // alert("2 boolean 1: "+(editdetails.value.fileName==null))
+  // alert("2 boolean 2: "+(editdetails.value.fileName==""))
+  // alert(document.querySelector("#noCurrentFile"))
+  e.preventDefault()
+}
+
 </script>
  
 <template>
-  <EditBooking :editBook="editdetails" @edit="editBooking" />
+  <EditBooking :editBook="editdetails" 
+  @edit="editBooking" @updateFile="handleFileUpload"
+  @delete="resetFile"/>
 </template>
  
 <style>

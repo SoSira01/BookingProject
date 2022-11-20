@@ -1,6 +1,6 @@
 <script setup>
 
-defineEmits(['remove','link','back','edit','view'])
+defineEmits(['remove','link','view','delete'])
 
 const props = defineProps({
     listDetailBooking: {
@@ -14,12 +14,12 @@ const linkFile = (fileName) => {
     return fileName
 }
 
-const confirmAction = (bookingId, bookingName) => {
-    let confirmAction = confirm(`Do you want to delete booking: ${bookingName}`)
-    if (confirmAction) {
-        return bookingId
-    }
-}
+//const confirmAction = (bookingId, bookingName) => {
+//    let confirmAction = confirm(`Do you want to delete booking: ${bookingName}`)
+//    if (confirmAction) {
+//        return bookingId
+//    }
+//}
 
 if(props.listDetailBooking.id == null){
     props.listDetailBooking.id = 0
@@ -68,6 +68,8 @@ const checkFile = (name) => {
                     <p class="mt-3 flex-row btn btn-warning btn-base-100 btn-xs drop-shadow-xl mr-2 ml-1"
                     @click="$emit('view', linkFile(listDetailBooking.fileName))" 
                     v-show="checkFile(listDetailBooking.fileName)">View File</p>
+                    <p class="flex-row btn btn-warning btn-base-100 btn-xs drop-shadow-xl mr-3"
+                    @click="$emit('delete',listDetailBooking.id,$event)">Reset File</p>
                 </p>
                 
                 <router-link class="mt-5 btn btn-xs drop-shadow-xl mr-3" :to="{ name: 'List' }">BACK</router-link>
@@ -79,7 +81,7 @@ const checkFile = (name) => {
                 }">
                     Edit
                 </router-link>
-                <button @click="$emit('remove', confirmAction(listDetailBooking.id, listDetailBooking.bookingName))"
+                <button @click="$emit('remove', listDetailBooking.id)"
                     class="mt-5 flex-row btn btn-outline btn-error btn-xs drop-shadow-xl">DELETE</button>
 
             </div>

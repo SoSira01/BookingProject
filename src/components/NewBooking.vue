@@ -22,6 +22,14 @@ const newBooking = ref({bookingName: "" ,note : "",email:""})
 var today = new Date()
 var nowtime = today.toISOString().substring(0, 16) 
 
+const removeFile = (event) => {
+    document.querySelector("#boxlistfilebtn").style.display = "none"
+    document.querySelector("#boxlistfile").style.display = "none"
+    document.querySelector("#boxlistfile").innerHTML = ""
+    document.querySelector("#noboxlistfile").style.display = "block"
+    event.preventDefault()
+}
+
 </script>
 
 <template>
@@ -109,14 +117,17 @@ var nowtime = today.toISOString().substring(0, 16)
                     class="text-sm text-neutral pl-3 mb-4"
                     v-on:change="$emit('Upload', $event)" />
                     
+                    <!-- Show Attachment List -->
+                    <p class="block text-base-100 text-sm font-bold"> Current Seleted File : </p>
                     <!-- No File Attachment -->
                     <div id="noboxlistfile">
                         <p class="block text-base-100 text-sm"> No File Attachment </p>
                     </div>
+                    
                     <!-- Have File Attachment -->
-                    <div id="boxlistfile" class="block text-base-100 text-sm" style="visibility: hidden;"></div>
-                    <button id="boxlistfilebtn" class="btn btn-xs drop-shadow-xl mb-5" 
-                        style="visibility: hidden;"> Remove </button>
+                    <div id="boxlistfile" class="block text-base-100 text-sm" style="display: none;"></div>
+                    <button id="boxlistfilebtn" class="btn btn-outline btn-xs mt-1 mb-3 btn-error" 
+                        style="display: none;" @click="removeFile"> Remove </button>
                     <br>
 
                     <button

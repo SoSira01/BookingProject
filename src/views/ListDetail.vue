@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import ListDetailBooking from '../components/ListDetailBooking.vue'
 import router from "../router";
 import jwt_decode from 'jwt-decode';
+import Swal from 'sweetalert2'
 
 const url = `${import.meta.env.VITE_APP_BASE_URL}`
 // const url = 'http://localhost:8080/api'
@@ -42,16 +43,58 @@ getListBookingById();
 
 //DELETE
 const removeEvent = async (deleteId) => {
-  const res = await fetch(`${url}/booking/${deleteId}`, {
-    method: 'DELETE',
-    headers: {"Authorization": getCurrentUserToken()}
-  })
-  if (res.status === 200) {
-    router.push({ name: 'List' })
-    console.log("deleted success")
-  } else {
-    console.log("error, cannot delete data")
-  }
+  const swalDelete = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    })
+  
+  swalDelete.fire({
+    title: `Are you delete booking name: `+bookdetails.value.bookingName,
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, cancel!',
+    reverseButtons: true
+    }).then( async (result) => {
+    if (result.isConfirmed) {
+        const response = await fetch(`${url}/booking/${deleteId}`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: getCurrentUserToken()
+          }
+        })
+
+        if(response.status === 200 || response.ok ) {
+          console.log("deleted success")
+          swalDelete.fire(
+            'Deleted!',
+            `Booking name: ${bookdetails.value.bookingName} has been delete`,
+            'success'
+          ).then(() => router.push({ name: "List"}))
+
+        } else {
+          swalDelete.fire(
+            'Delete Booking Error!',
+            'Please try again or contact admin',
+            'error'
+          )
+          console.log("error, cannot delete data")
+        }
+
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        swalDelete.fire(
+          'Cancelled',
+          `Booking name : ${bookdetails.value.bookingName} is safe :)`,
+          'error'
+        )
+        console.log("cancel delete booking")
+      }
+    })
+
 }
 
 //Loading File
@@ -70,11 +113,8 @@ const loadEventFile = async (name) => {
 
     fileElem.click()
     alert("Complete!")
-    // router.push({ name: 'List' })
-    // console.log("deleted success")
   } else {
     alert("Incomplete!")
-    // console.log("error, cannot delete data")
   }
 }
 
@@ -95,11 +135,33 @@ const viewEventFile = async (name) => {
   }
 }
 
+//Reset Attachment
+const resetFile = async(idbooking, e) => {
+  let confirmReset = confirm("Do you want to reset this booking attachment?")
+  if(confirmReset) {
+    let requestOptions = {
+            method: 'DELETE',
+            headers: { Authorization: getCurrentUserToken() }
+        };
+    const res = await fetch(`${url}/files/${idbooking}`, requestOptions )
+    // Swal.showLoading()
+    if (res.status === 200) {
+      alert('Reset completely!!')
+      location.reload()
+      // router.push({ name: 'ListDetail', param: {bookingId : bookdetails.value.id} })
+    } else {
+      alert('Error To Reset \n Please try again')
+      console.log("error, cannot be edited")
+    }
+    e.preventDefault();  //prevent to refresh page
+  }
+}
 </script>
  
 <template>
   <ListDetailBooking :listDetailBooking="bookdetails" 
-  @remove="removeEvent" @link="loadEventFile" @view="viewEventFile"/>
+  @remove="removeEvent" @link="loadEventFile" 
+  @view="viewEventFile" @delete="resetFile"/>
 </template>
  
 <style scoped>

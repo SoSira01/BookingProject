@@ -17,36 +17,22 @@ let status = ref("")
 let files = ref([])
 let form = new FormData()
 
-const removeFile = (event) => {
-    let listFileElem = document.querySelector("#boxlistfile")
-    let listFileBtn = document.querySelector("#boxlistfilebtn")
-    let nolistFileElem = document.querySelector("#noboxlistfile")
-    listFileElem.style.visibility = "hidden"
-    listFileBtn.style.visibility = "hidden"
-    nolistFileElem.removeAttribute("hidden")
-    event.preventDefault()
-}
-
 const handleFileUpload = (event) => {
     event.preventDefault()
     console.log(event.target.files) // print : show files
     if(event.target.files[0] && event.target.files[0].size <= 10*1024*1024) {
         files[0] = event.target.files[0]
+        console.log(files[0])
+
+        // set to listing new file name
         let listFileElem = document.querySelector("#boxlistfile")
-        let listFileBtn = document.querySelector("#boxlistfilebtn")
-        let nolistFileElem = document.querySelector("#noboxlistfile")
-
-        nolistFileElem.setAttribute("hidden",true)
-
         let listFile = document.createAttribute('p')
         listFile.value = event.target.files[0].name
-
-        listFileElem.style.visibility = "visible"
         listFileElem.innerHTML = listFile.value
+        listFileElem.style.display = "block"
 
-        listFileBtn.style.visibility = "visible"
-        listFileBtn.addEventListener('click',removeFile)
-        console.log(files[0])
+        document.querySelector("#noboxlistfile").style.display = "none" // close message to notice no new list
+        document.querySelector("#boxlistfilebtn").style.display = "block" // show button to remove file later
     } 
     if(event.target.files[0] && event.target.files[0].size > 10*1024*1024) {
         alert(`The file size cannot be larger than 10 MB.\n Can not attach ${event.target.files[0].name}`)
@@ -60,10 +46,6 @@ const handleFileUpload = (event) => {
 //Get currentUserToken from Localstorage
 const getCurrentUserToken = () => {
   let headerObject = {}
- //  headerObject["Content-Type"] = `multipart/form-data; boundary=${form._boundary}`
- //  headerObject["Accept"] = "application/json"
- //  headerObject["Content-Type"] = `application/json`
- //  headerObject["Content-Type"] = "multipart/form-data;"
   if(localStorage.currentUser && localStorage.currentUserToken) {
     let token = jwt_decode(localStorage.currentUserToken)
     if(token.exp*1000 < Date.now()) {
@@ -96,7 +78,7 @@ const addBooking = async (newBookingEvent) => {
     form.append("booking",blob)
 
     let listFileElem = document.querySelector("#boxlistfile")
-    if(listFileElem.style.visibility == "visible") {
+    if(listFileElem.style.display == "block") {
         form.append("file",files[0])
     }
 
@@ -137,8 +119,9 @@ const addBooking = async (newBookingEvent) => {
             }).then(()=> {
                 if(localStorage.currentUserToken){
                     router.push({ name: 'List' }).then(() => location.reload())
+                } else {
+                    router.push({ name: 'Home' }).then(() => location.reload())
                 }
-                router.push({ name: 'Home' }).then(() => location.reload())
             })
         } else {         
             Swal.fire({
