@@ -10,16 +10,8 @@ const props = defineProps({
 })
 
 const linkFile = (fileName) => {
-    // window.location.href = `${import.meta.env.VITE_APP_BASE_URL}`+"/booking/files/"
     return fileName
 }
-
-//const confirmAction = (bookingId, bookingName) => {
-//    let confirmAction = confirm(`Do you want to delete booking: ${bookingName}`)
-//    if (confirmAction) {
-//        return bookingId
-//    }
-//}
 
 if(props.listDetailBooking.id == null){
     props.listDetailBooking.id = 0

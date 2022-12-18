@@ -1,5 +1,5 @@
 <script setup>
-defineEmits(['edit'])
+defineEmits(['edit','checkStatus'])
 
 const prop = defineProps({
     allcategory: {
@@ -9,6 +9,7 @@ const prop = defineProps({
     }
 })
 console.log(prop.allcategory);
+let localUserRole = localStorage.currentUserRole
 </script>
  
 <template>
@@ -31,12 +32,21 @@ console.log(prop.allcategory);
                 </p>
                 <p v-else><span class="font-bold text-lg  text-base-100">Description : </span>No description</p>
 
-                <router-link class="mt-5 flex-row btn btn-base-100 btn-xs drop-shadow-xl mr-3" :to="{
-                    name: 'EditCategory',
-                    params: {
-                        CategoryId: allCat.id
-                    } }">
-                    Edit
+                <router-link class="mt-5 flex-row btn btn-base-100 btn-xs drop-shadow-xl mr-3" :id="'edit'+allCat.id"
+                    v-if="localUserRole == 'lecturer' || localUserRole == 'admin'" style="visibility: hidden;"
+                    :to="{
+                        name: 'EditCategory',
+                        params: { CategoryId: allCat.id } 
+                    }">Edit
+                </router-link>
+                
+                <router-link class="mt-5 flex-row btn btn-warning btn-base-100 btn-xs drop-shadow-xl mr-3" 
+                    v-if="localUserRole == 'lecturer'" :id="'linkToCate'+allCat.id" style="visibility: hidden;"
+                    :to="{
+                        name: 'List',
+                        query: { filterCateId: allCat.id }
+                    }">
+                    See Booking In This
                 </router-link>
             </div>
         </div>

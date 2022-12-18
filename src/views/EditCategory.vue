@@ -5,10 +5,7 @@ import EditForCat from '../components/EditForCat.vue'
 import router from "../router";
 import jwt_decode from 'jwt-decode'
 const url = `${import.meta.env.VITE_APP_BASE_URL}`
-// const url = 'http://intproj21.sit.kmutt.ac.th:8080/ssi5/api'
-// const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
-// const url = 'http://localhost:8080/api'
-// const url = '  http://202.44.9.103:8080/ssi5/api'
+
 const editValue =ref([])
 let { params } = useRoute()
 console.log(params.CategoryId)
@@ -34,31 +31,47 @@ const editCategory = async (editing, e) => {
   e.preventDefault();
   console.log(editing)
 
-  if (editing.duration > 481 || editing.duration < 1){
-    alert("you can add number only between 1 - 480")
-    return
+  let editCate = {}
+  if(editing != null && editing != "" && editing != undefined) {
+    editCate.categoryName = editing.categoryName
+    editCate.duration = editing.duration
+  } else {
+    console.log("error to edit the empty")
+  }
+  if (editing.categoryDescription == null 
+      || editing.categoryDescription == "" 
+      || editing.categoryDescription == undefined){
+    console.log("not need to edit new empty")
+  } else {
+    editCate.categoryDescription = editing.categoryDescription
   }
 
-  const res = await fetch(`${url}/category/${id.value}`, {
-    method: 'PATCH',
-    headers: {
-      'content-type': 'application/json',
-      'Authorization': getCurrentUserToken()
-    },
-    body: JSON.stringify({
-      categoryName: editing.categoryName,
-      duration: editing.duration,
-      categoryDescription: editing.categoryDescription
+  if(editCate.categoryName && editCate.duration){
+    const res = await fetch(`${url}/category/${id.value}`, {
+      method: 'PATCH',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': getCurrentUserToken()
+      },
+      body: JSON.stringify(editCate)
     })
-  })
-  if (res.status === 200) {
-    router.push({ name: 'CategoryList' })
-  }else  if (res.status === 400) {
-    alert('error, Name is not Uniqued')
-  } else  
-    alert('error, cannot be edited')
-    console.log("error, cannot be edited")
+
+    if (res.status === 200) {
+      router.push({ name: 'CategoryList' })
+    }else  if (res.status === 400) {
+      alert('error, Name is not Uniqued')
+    } else  {
+      alert('error, cannot be edited')
+      console.log("error, cannot be edited")
+    }
+
+    return console.log("finished condition")
+
+  } else {
+    // alert("finished process")
+    return console.log("finished process")
   }
+}
 
 //GETById
 const getListCategoryById = async () => {

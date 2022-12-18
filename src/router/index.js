@@ -5,6 +5,7 @@ import List from '../views/List.vue'
 import ListDetail from '../views/ListDetail.vue'
 import AddList from '../views/AddList.vue'
 import AboutUs from '../views/AboutUs.vue'
+import AddCategory from '../views/AddCategory.vue'
 import Edit from '../views/Edit.vue'
 import CategoryList from '../views/CategoryList.vue'
 import EditCategory from '../views/EditCategory.vue'
@@ -14,6 +15,7 @@ import AddUser from '../views/AddUser.vue'
 import EditUser from '../components/EditUserDetail.vue'
 import Login from '../views/Login.vue'
 import MatchUserPwd from '../views/MatchPwd.vue'
+import ContactAdmin from '../views/ContactAdmin.vue'
 import jwt_decode from 'jwt-decode'
 import { ref } from 'vue'
 
@@ -27,7 +29,10 @@ const routes = [
     {
         path: '/List',
         name: 'List',
-        component: List
+        component: List,
+        props(route) {
+            return {  filterCateId: route.query.filterCateId }
+          }
     },
     {
         path: '/List/:BookingId',
@@ -48,6 +53,11 @@ const routes = [
         path: '/CategoryList/editCategory/:CategoryId',
         name: 'EditCategory',
         component: EditCategory
+    },
+    {
+        path: '/AddCategory',
+        name: 'AddCategory',
+        component: AddCategory
     },
     {
         path: '/AboutUs',
@@ -90,6 +100,11 @@ const routes = [
         component: MatchUserPwd
     },
     {
+        path: '/ContactAdmin',
+        name: 'ContactAdmin',
+        component: ContactAdmin
+    },
+    {
         path: '/:catchNotMatchPath(.*)',
         name: 'NotFound',
         component: NotFound
@@ -97,7 +112,7 @@ const routes = [
     ]
 const router = createRouter({history, routes})
 router.beforeEach(async (to, from, next) => {
-    const publicPages = ['/','/AddList','/AboutUs','/Login'];
+    const publicPages = ['/','/AddList','/AboutUs','/Login','/ContactAdmin'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('currentUser');
     if ( authRequired && !loggedIn ) {

@@ -1,6 +1,7 @@
 <script setup>
 import { logout } from '../authen/authen_service.js' 
 let localUser = localStorage.currentUser
+let localUserRole = localStorage.currentUserRole
 </script>
  
 <template>
@@ -25,23 +26,29 @@ let localUser = localStorage.currentUser
           <li>
             <router-link :to="{ name: 'List' }">Show All Event</router-link>
           </li>
-          <li>
+          <li v-if="localUserRole != 'lecturer'">
             <router-link :to="{ name: 'AddList' }">Add Event</router-link>
           </li>
-          <li>
+          <li v-if="localUserRole == 'admin' || localUserRole == 'lecturer'">
             <router-link :to="{ name: 'CategoryList' }">CategoryList</router-link>
           </li>
-          <li>
+          <li v-if="localUserRole == 'admin'">
+            <router-link :to="{ name: 'AddCategory' }">Add Category</router-link>
+          </li>
+          <li v-if="localUserRole == 'admin'">
             <router-link :to="{ name: 'ListUser' }">User</router-link>
           </li>
-          <li>
+          <li v-if="localUserRole == 'admin'">
             <router-link :to="{ name: 'MatchUserPassword' }">Match Password</router-link>
           </li>
-          <li>
+          <li v-if="!localUser">
             <router-link :to="{ name: 'Login' }">Login</router-link>
           </li>
           <li>
-            <router-link :to="{ name: 'AboutUs' }">AboutUs</router-link>
+            <router-link :to="{ name: 'AboutUs' }">About Us</router-link>
+          </li>
+          <li v-if="localUserRole != 'admin'">
+            <router-link :to="{ name: 'ContactAdmin' }">Contact Admin</router-link>
           </li>
 
         </ul>

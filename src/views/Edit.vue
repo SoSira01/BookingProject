@@ -5,11 +5,6 @@ import EditBooking from '../components/EditBooking.vue'
 import router from "../router"
 import jwt_decode from 'jwt-decode'
 const url = `${import.meta.env.VITE_APP_BASE_URL}`
-// const url = 'http://intproj21.sit.kmutt.ac.th:8080/ssi5/api'
-// const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
-// const url = 'http://localhost:8080/api'
-// const url = '  http://202.44.9.103:8080/ssi5/api'
-
 //EDIT
 const editdetails = ref({});
 let files = ref([])

@@ -1,16 +1,18 @@
 <script setup>
-import { ref } from 'vue'
+import { ref,onBeforeMount } from 'vue'
 import ListBooking from '../components/ListBooking.vue'
 import router from '../router';
 import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
 const url = `${import.meta.env.VITE_APP_BASE_URL}`
-// const url = 'http://intproj21.sit.kmutt.ac.th:8080/ssi5/api'
-// const url = 'http://intproj21.sit.kmutt.ac.th:80/ssi5/api'
-// const url = 'http://localhost:8080/api'
-// const url = '  http://202.44.9.103:8080/ssi5/api'
 const book = ref([])
 const category =ref([])
+let props = defineProps({
+    filterCateId: {
+        type: String,
+        default: ""
+    },
+ })
 
 //Get currentUserToken from Localstorage
 const getCurrentUserToken = () => {
@@ -119,6 +121,10 @@ const getAllListCategory = async () => {
 //Filter by categoryId
 const getFilterCategory = async (filterId) => {
   console.log(filterId)
+  if(localStorage.currentUserRole == "lecturer") {
+      console.log("into filter")
+      await router.push({ path: '/List'})
+  }
   if(filterId > 0 ){
       const res = await fetch(`${url}/booking/filter/${filterId}`,{ headers: { 'Authorization': getCurrentUserToken() }})
 
@@ -131,8 +137,17 @@ const getFilterCategory = async (filterId) => {
   } else getListBooking();
 }
 
-getFilterCategory()
-getAllListCategory()
+onBeforeMount(async () => {
+  getAllListCategory()
+  console.log(props.filterCateId)
+  if(localStorage.currentUserRole == "lecturer" 
+    && (props.filterCateId != null && props.filterCateId != "") ) {
+      console.log("into lecturer filter from cateList")
+      getFilterCategory(props.filterCateId)
+  } else {
+    getFilterCategory()
+  }
+})
 
 </script>
  
